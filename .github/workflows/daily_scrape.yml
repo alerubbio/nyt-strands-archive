@@ -1,0 +1,33 @@
+name: Daily Scrape and Update
+
+on:
+  schedule:
+    - cron: '5 0 * * *'  # Run at 00:05 UTC daily
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4
+    
+    - name: Run scraping script
+      run: python scrape_data.py
+    
+    - name: Commit and push if changed
+      run: |
+        git config --global user.name 'GitHub Action'
+        git config --global user.email 'action@github.com'
+        git add data.json
+        git commit -m "Update data" || exit 0
+        git push
