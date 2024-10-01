@@ -1,5 +1,4 @@
 name: Daily Strands Board and Data Scrape
-
 on:
   schedule:
     - cron: '0 0 * * *'  # Run at 00:00 UTC daily
@@ -27,13 +26,17 @@ jobs:
     - name: Run board scraping script
       run: python ./scripts/scrape_board.py
     
-    - name: Run data scraping script
+    - name: Run words scraping script
       run: python ./scripts/scrape_words.py
+
+    - name: Run hints scraping script
+      run: python ./scripts/scrape_hints.py
     
     - name: Commit and push if changed
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        git add strands_board.json strands_data.json
-        git commit -m "Update Strands board and data" || exit 0
+        git add --all
+        timestamp=$(date -u "+%Y-%m-%d %H:%M:%S UTC")
+        git commit -m "Update Strands Game Data $timestamp" || exit 0
         git push
