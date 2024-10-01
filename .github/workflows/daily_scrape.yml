@@ -2,7 +2,7 @@ name: Daily Scrape and Update
 
 on:
   schedule:
-    - cron: '5 0 * * *'  # Run at 00:05 UTC daily
+    - cron: '0 0 * * *'  # Run at 00:00 Midnight
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
@@ -28,6 +28,6 @@ jobs:
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        git add data.json
-        git commit -m "Update data" || exit 0
+        git add strands_data.json
+        git commit -m "Update strands data" || exit 0
         git push
