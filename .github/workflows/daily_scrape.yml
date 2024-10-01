@@ -28,7 +28,7 @@ jobs:
       run: python ./scripts/scrape_board.py
     
     - name: Run data scraping script
-      run: python ./scripts/scrape_data.py
+      run: python ./scripts/scrape_words.py
     
     - name: Commit and push if changed
       run: |
