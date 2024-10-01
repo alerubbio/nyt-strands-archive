@@ -75,7 +75,7 @@ def scrape_data():
             "spangram": "Error",
             "words": "Error, Scraping, Failed"
         }
-        with open('strands_data.json', 'w') as f:
+        with open('strands_words.json', 'w') as f:
             json.dump(default_data, f, indent=2)
         print("Default data saved due to scraping error")
 

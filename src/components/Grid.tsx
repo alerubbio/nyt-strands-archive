@@ -2,6 +2,19 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 
+// New interfaces for JSON data
+interface BoardData {
+  date: string;
+  board: string[][];
+}
+
+interface WordsData {
+  date: string;
+  theme: string;
+  spangram: string;
+  words: string;  // Changed from string[] to string
+}
+
 interface SelectedLetter {
   rowIndex: number;
   colIndex: number;
@@ -13,6 +26,10 @@ interface FoundWord {
   letters: SelectedLetter[];
 }
 
+// Import JSON data (assuming you have a way to import JSON in your project)
+import boardData from '../../scripts/strands_board.json';
+import wordsData from '../../scripts/strands_words.json';
+
 export default function Grid() {
   const [showHint, setShowHint] = useState<boolean>(false);
   const [selectedLetters, setSelectedLetters] = useState<SelectedLetter[]>([]);
@@ -21,19 +38,12 @@ export default function Grid() {
   const gridRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Example grid of letters (8x6)
-  const grid = useMemo(() => [
-    ["E", "O", "L", "A", "T", "I"],
-    ["V", "G", "R", "S", "T", "U"],
-    ["I", "N", "E", "I", "S", "D"],
-    ["P", "P", "H", "T", "O", "E"],
-    ["E", "A", "O", "E", "N", "S"],
-    ["I", "M", "X", "P", "L", "A"],
-    ["T", "C", "N", "T", "E", "S"],
-    ["E", "M", "E", "E", "R", "U"],
-  ], []);
+  // Use the imported board data
+  const grid = useMemo(() => (boardData as BoardData).board, []);
 
-  const validWords = useMemo(() => ["EMOTIONS","EXCITEMENT", "GRATITUDE", "HAPPINESS", "LOVE","PLEASURE"], []);
+  // Use the imported words data
+  const validWords = useMemo(() => (wordsData as WordsData).words.split(", "), []);
+  const theme = useMemo(() => (wordsData as WordsData).theme, []);
 
   const isAdjacent = (prev: SelectedLetter, current: SelectedLetter): boolean => {
     const rowDiff = Math.abs(prev.rowIndex - current.rowIndex);
@@ -174,7 +184,7 @@ export default function Grid() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-xl text-center">Positive Emotions</p>
+          <p className="text-xl text-center">{theme}</p>
         </CardContent>
       </Card>
 
@@ -222,7 +232,7 @@ export default function Grid() {
       </div>
 
       <div className="flex justify-center mt-6">
-        <Button style={{ outline: 'none' }} className ="prevent-select" onClick={() => setShowHint(!showHint) }>
+        <Button style={{ outline: 'none' }} className="prevent-select" onClick={() => setShowHint(!showHint)}>
           {showHint ? "Hide Hint" : "Show Hint"}
         </Button>
       </div>
@@ -230,7 +240,7 @@ export default function Grid() {
       {showHint && (
         <Card className="mt-4 w-fit mx-auto">
           <CardContent>
-            <p>Here's a hint: Look for words related to positive emotions in the grid!</p>
+            <p>Here's a hint: Look for words related to {theme.toLowerCase()} in the grid!</p>
           </CardContent>
         </Card>
       )}

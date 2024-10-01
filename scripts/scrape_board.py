@@ -1,95 +1,86 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
-from datetime import datetime
-import sys
+import requests
+from bs4 import BeautifulSoup
 import json
+from datetime import datetime
 
-def setup_driver():
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-gpu")
-    
-    # Use webdriver_manager to install and manage ChromeDriver
-    service = Service(ChromeDriverManager().install())
-    
+def get_url():
+    today = datetime.now()
+    formatted_date = today.strftime("%B-%d").lower()
+    year = today.year
+    return f"https://www.strands.today/strands-today-answers-{formatted_date}-{year}/"
+
+def scrape_data():
+    url = get_url()
+    print(f"Scraping URL: {url}")
+   
     try:
-        driver = webdriver.Chrome(service=service, options=chrome_options)
-        return driver
+        response = requests.get(url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+       
+        # Find the main div containing all the information
+        hints_div = soup.find('div', id='hints-for-today')
+        if not hints_div:
+            raise ValueError("Could not find 'hints-for-today' div")
+       
+        # Extract the theme
+        theme_div = hints_div.find('div', class_='bg-green-200')
+        if not theme_div:
+            raise ValueError("Could not find theme div")
+        theme = theme_div.find('p', class_='font-bold text-[#007bff]').text.strip()
+        print(f"Theme: {theme}")
+       
+        # Extract the spangram
+        spangram_div = hints_div.find_all('div', class_='bg-blue-100')[-1]
+        if not spangram_div:
+            raise ValueError("Could not find spangram div")
+        spangram = spangram_div.find('p', class_='font-bold text-[#007bff]').text.split("- ")[-1]
+        print(f"Spangram: {spangram}")
+       
+        # Extract the list of words from the ul tag
+        words_div = hints_div.find_all('div', class_='bg-green-100')[-1]
+        if not words_div:
+            raise ValueError("Could not find words div")
+        words_ul = words_div.find('ul')
+        if not words_ul:
+            raise ValueError("Could not find words list")
+       
+        # Extract individual words from the ul
+        words = [li.text.strip() for li in words_ul.find_all('li')]
+        words_string = ", ".join(words)
+        print(f"Words: {words_string}")
+       
+        # Prepare the data to be saved
+        scraped_data = {
+            "date": datetime.now().strftime("%Y-%m-%d"),
+            "theme": theme,
+            "spangram": spangram,
+            "words": words_string
+        }
+       
+        # Save the scraped data to a JSON file with the new naming convention
+        filename = f"WORDS_{datetime.now().strftime('%Y-%m-%d')}.json"
+        with open(filename, 'w') as f:
+            json.dump(scraped_data, f, indent=2)
+       
+        print(f"Scraping completed successfully. Data saved to {filename}")
+        print(json.dumps(scraped_data, indent=2))  # Print the scraped data for verification
     except Exception as e:
-        print(f"Error setting up Chrome driver: {str(e)}")
-        sys.exit(1)
-
-def scrape_strands_game(date):
-    url = f"https://www.strands.today/strands-game/?date={date}"
-    
-    driver = setup_driver()
-    driver.get(url)
-    
-    try:
-        WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located((By.ID, "board"))
-        )
-        
-        board_div = driver.find_element(By.ID, "board")
-        
-        board = []
-        for y in range(8):
-            row = []
-            for x in range(6):
-                selector = f'div[data-x="{x}"][data-y="{y}"] .relative'
-                try:
-                    letter = board_div.find_element(By.CSS_SELECTOR, selector).text
-                    row.append(letter)
-                except:
-                    row.append(' ')
-            board.append(row)
-        
-        return board
-    
-    except Exception as e:
-        print(f"Error: Could not find the game board. {str(e)}")
-        return None
-    
-    finally:
-        driver.quit()
-
-def print_board(board):
-    if board is None:
-        return
-    for row in board:
-        print(' '.join(row))
-
-def export_to_json(board, date, filename="strands_board.json"):
-    data = {
-        "date": date,
-        "board": board
-    }
-    with open(filename, 'w') as f:
-        json.dump(data, f, indent=2)
-    print(f"Board exported to {filename}")
-
-def main():
-    if len(sys.argv) > 1:
-        date = sys.argv[1]
-    else:
-        date = datetime.now().strftime("%Y-%m-%d")
-    
-    print(f"Scraping Strands game board for {date}...")
-    board = scrape_strands_game(date)
-    
-    if board:
-        print(f"Strands game board for {date}:")
-        print_board(board)
-        export_to_json(board, date)
-    else:
-        print("Failed to retrieve the game board.")
+        print(f"An error occurred while scraping: {e}")
+        if 'soup' in locals():
+            print("HTML content:")
+            print(soup.prettify())  # Print full HTML for debugging
+        # Create a default or error data set
+        default_data = {
+            "date": datetime.now().strftime("%Y-%m-%d"),
+            "theme": "Error occurred",
+            "spangram": "Error",
+            "words": "Error, Scraping, Failed"
+        }
+        filename = f"WORDS_{datetime.now().strftime('%Y-%m-%d')}.json"
+        with open(filename, 'w') as f:
+            json.dump(default_data, f, indent=2)
+        print(f"Default data saved due to scraping error. File: {filename}")
 
 if __name__ == "__main__":
-    main()
+    scrape_data()
