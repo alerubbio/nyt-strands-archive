@@ -22,7 +22,7 @@ jobs:
         pip install requests beautifulsoup4
     
     - name: Run scraping script
-      run: python scrape_data.py
+      run: python ./scripts/scrape_data.py
     
     - name: Commit and push if changed
       run: |
