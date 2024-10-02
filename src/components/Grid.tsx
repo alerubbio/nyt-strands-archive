@@ -373,7 +373,7 @@ export default function Grid() {
         </div>
 
         {showHint && previousHints.length > 0 && (
-          <div className="w-1/2 mx-auto mt-2">
+          <div className="w-1/2 mx-auto mt-6">
           <Carousel
             opts={{
               align: "start",
