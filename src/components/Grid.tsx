@@ -44,20 +44,12 @@ import boardData from "../../scripts/BOARD.json";
 import wordsData from "../../scripts/WORDS.json";
 import hintsData from "../../scripts/HINTS.json";
 import definitionsData from "../../scripts/DEFINE.json";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from "./ui/carousel";
 
 export default function Grid() {
-  const [showHint, setShowHint] = useState<boolean>(false);
+  const [, setShowHint] = useState<boolean>(false);
   const [selectedLetters, setSelectedLetters] = useState<SelectedLetter[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [foundWords, setFoundWords] = useState<FoundWord[]>([]);
-  const [, setCurrentHint] = useState<string>("");
   const [previousHints, setPreviousHints] = useState<string[]>([]);
   const [hintProgress, setHintProgress] = useState<number>(0);
   const [availableHints, setAvailableHints] = useState<number>(0);
@@ -427,12 +419,6 @@ export default function Grid() {
     },
     [isDragging, handleDrag]
   );
-
-  const handleTouchEnd = useCallback(() => {
-    if (isDragging) {
-      handleDragEnd();
-    }
-  }, [isDragging, handleDragEnd]);
 
   useEffect(() => {
     const handleGlobalTouchEnd = () => {
