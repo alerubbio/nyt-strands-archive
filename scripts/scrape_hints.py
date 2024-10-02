@@ -84,7 +84,7 @@ def main():
             "words": sorted(list(set(all_words)))  # Remove duplicates and sort
         }
         
-        filename = f"HINTS_{game_date}.json"
+        filename = f"HINTS.json"
         save_to_json(data, filename)
     else:
         print("Failed to scrape words.")

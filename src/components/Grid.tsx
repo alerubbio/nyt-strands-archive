@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
+import { Progress } from "@/components/ui/progress"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Button } from "@/components/ui/button";
 
-// New interfaces for JSON data
+
 interface BoardData {
   date: string;
   board: string[][];
@@ -12,7 +14,16 @@ interface WordsData {
   date: string;
   theme: string;
   spangram: string;
-  words: string;  // Changed from string[] to string
+  words: string;
+}
+
+interface HintsData {
+  date: string;
+  words: string[];
+}
+
+interface DefinitionsData {
+  [key: string]: string;
 }
 
 interface SelectedLetter {
@@ -24,26 +35,52 @@ interface SelectedLetter {
 interface FoundWord {
   word: string;
   letters: SelectedLetter[];
+  isAnswer: boolean;
+  usedForHint: boolean;
+  isSpangram: boolean;
 }
 
-// Import JSON data (assuming you have a way to import JSON in your project)
-import boardData from '../../scripts/strands_board.json';
-import wordsData from '../../scripts/strands_words.json';
+// Import JSON data
+import boardData from '../../scripts/BOARD.json';
+import wordsData from '../../scripts/WORDS.json';
+import hintsData from '../../scripts/HINTS.json';
+import definitionsData from '../../scripts/DEFINE.json';
+import { Accordion } from "@radix-ui/react-accordion";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "./ui/carousel";
 
 export default function Grid() {
   const [showHint, setShowHint] = useState<boolean>(false);
   const [selectedLetters, setSelectedLetters] = useState<SelectedLetter[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [foundWords, setFoundWords] = useState<FoundWord[]>([]);
+  const [currentHint, setCurrentHint] = useState<string>('');
+  const [hintPoints, setHintPoints] = useState<number>(0);
+  const [previousHints, setPreviousHints] = useState<string[]>([]);
+  const [totalHintPoints, setTotalHintPoints] = useState<number>(0);
+  const [hintProgress, setHintProgress] = useState<number>(0);
+  const [availableHints, setAvailableHints] = useState<number>(0);
+  const [usedHints, setUsedHints] = useState<number>(0);
+  const [hasWon, setHasWon] = useState<boolean>(false);
+
+  const hintProgressRef = useRef<number>(0);
+  const availableHintsRef = useRef<number>(0);
+  const usedHintsRef = useRef<number>(0);
+
+  const [usedHintIndices, setUsedHintIndices] = useState<number[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Use the imported board data
   const grid = useMemo(() => (boardData as BoardData).board, []);
-
-  // Use the imported words data
   const validWords = useMemo(() => (wordsData as WordsData).words.split(", "), []);
+  const spangram = useMemo(() => (wordsData as WordsData).spangram, []);
   const theme = useMemo(() => (wordsData as WordsData).theme, []);
+  const hintWords = useMemo(() => (hintsData as HintsData).words, []);
+  const definitions = useMemo(() => definitionsData as DefinitionsData, []);
+
+  const remainingAnswerWords = useMemo(() => {
+    const foundAnswerWords = new Set(foundWords.filter(fw => fw.isAnswer).map(fw => fw.word));
+    return validWords.filter(word => !foundAnswerWords.has(word));
+  }, [validWords, foundWords]);
 
   const isAdjacent = (prev: SelectedLetter, current: SelectedLetter): boolean => {
     const rowDiff = Math.abs(prev.rowIndex - current.rowIndex);
@@ -51,15 +88,19 @@ export default function Grid() {
     return (rowDiff <= 1 && colDiff <= 1) && (rowDiff + colDiff > 0);
   };
 
-  const handleDragStart = useCallback((rowIndex: number, colIndex: number) => {
-    if (!isLetterInFoundWord(rowIndex, colIndex)) {
-      setIsDragging(true);
-      setSelectedLetters([{ rowIndex, colIndex, letter: grid[rowIndex][colIndex] }]);
+  useEffect(() => {
+    if (remainingAnswerWords.length === 0) {
+      setHasWon(true);
     }
+  }, [remainingAnswerWords]);
+
+  const handleDragStart = useCallback((rowIndex: number, colIndex: number) => {
+    setIsDragging(true);
+    setSelectedLetters([{ rowIndex, colIndex, letter: grid[rowIndex][colIndex] }]);
   }, [grid]);
 
   const handleDrag = useCallback((rowIndex: number, colIndex: number) => {
-    if (isDragging && !isLetterInFoundWord(rowIndex, colIndex)) {
+    if (isDragging) {
       setSelectedLetters(prev => {
         const lastSelected = prev[prev.length - 1];
         const newLetter = { rowIndex, colIndex, letter: grid[rowIndex][colIndex] };
@@ -76,27 +117,98 @@ export default function Grid() {
       });
     }
   }, [isDragging, grid]);
+  
+  const canEarnMoreHints = useCallback(() => {
+    return availableHintsRef.current + usedHintsRef.current < 3;
+  }, []);
 
   const handleDragEnd = useCallback(() => {
     setIsDragging(false);
     const word = selectedLetters.map((item) => item.letter).join("");
-    if (validWords.includes(word) && !foundWords.some(fw => fw.word === word)) {
-      setFoundWords(prev => [...prev, { word, letters: selectedLetters }]);
-      console.log(`Valid word found: ${word}`);
-    } 
-    // Force a re-render to update the button colors immediately
+    
+    if (word === spangram && !foundWords.some(fw => fw.word === word)) {
+      // Handle Spangram
+      setFoundWords(prev => [...prev, { 
+        word, 
+        letters: selectedLetters, 
+        isAnswer: true, 
+        usedForHint: false,
+        isSpangram: true
+      }]);
+      console.log(`Spangram found: ${word}`);
+    } else if (validWords.includes(word) && !foundWords.some(fw => fw.word === word)) {
+      // Handle regular answer words
+      setFoundWords(prev => [...prev, { 
+        word, 
+        letters: selectedLetters, 
+        isAnswer: true, 
+        usedForHint: false,
+        isSpangram: false
+      }]);
+      console.log(`Answer word found: ${word}`);
+    } else if (hintWords.includes(word) && !foundWords.some(fw => fw.word === word)) {
+      // Handle hint words
+      setFoundWords(prev => [...prev, { 
+        word, 
+        letters: selectedLetters, 
+        isAnswer: false, 
+        usedForHint: false,
+        isSpangram: false
+      }]);
+      if (canEarnMoreHints()) {
+        hintProgressRef.current += 1;
+        console.log(`Hint progress: ${hintProgressRef.current}/3`);
+        
+        if (hintProgressRef.current === 3) {
+          availableHintsRef.current = Math.min(availableHintsRef.current + 1, 3 - usedHintsRef.current);
+          console.log(`New hint available. Total available: ${availableHintsRef.current}`);
+          hintProgressRef.current = 0;
+        }
+        
+        setHintProgress(hintProgressRef.current);
+        setAvailableHints(availableHintsRef.current);
+      } else {
+        console.log("Cannot earn more hints. Limit reached.");
+      }
+      console.log(`Hint word found: ${word}`);
+    }
     setSelectedLetters([]);
-  }, [selectedLetters, validWords, foundWords]);
+  }, [selectedLetters, validWords, hintWords, foundWords, spangram, canEarnMoreHints]);
 
   const isLetterSelected = useCallback((rowIndex: number, colIndex: number): boolean => {
     return selectedLetters.some(item => item.rowIndex === rowIndex && item.colIndex === colIndex);
   }, [selectedLetters]);
 
-  const isLetterInFoundWord = useCallback((rowIndex: number, colIndex: number): boolean => {
-    return foundWords.some(fw => 
-      fw.letters.some(letter => letter.rowIndex === rowIndex && letter.colIndex === colIndex)
+  const isLetterInFoundWord = useCallback((rowIndex: number, colIndex: number): string | false => {
+    const foundWord = foundWords.find(fw => 
+      fw.isAnswer && fw.letters.some(letter => letter.rowIndex === rowIndex && letter.colIndex === colIndex)
     );
+    if (foundWord) {
+      return foundWord.isSpangram ? 'spangram' : 'answer';
+    }
+    return false;
   }, [foundWords]);
+
+  const getRandomHint = useCallback(() => {
+    if (remainingAnswerWords.length === 0) {
+      return spangram ? "Only the Spangram remains!" : "Congratulations! You've found all the words!";
+    }
+    if (remainingAnswerWords.length === 1 && remainingAnswerWords[0] === spangram) {
+      return "Only the Spangram remains!";
+    }
+    
+    const unusedWords = remainingAnswerWords.filter((_, index) => !usedHintIndices.includes(index));
+    if (unusedWords.length === 0) {
+      return "All available hints have been used!";
+    }
+    
+    const randomIndex = Math.floor(Math.random() * unusedWords.length);
+    const randomWord = unusedWords[randomIndex];
+    const originalIndex = remainingAnswerWords.indexOf(randomWord);
+    setUsedHintIndices(prev => [...prev, originalIndex]);
+    
+    return `${definitions[randomWord]}`;
+  }, [remainingAnswerWords, spangram, definitions, usedHintIndices]);
 
   useEffect(() => {
     const handleGlobalMouseUp = () => {
@@ -134,7 +246,7 @@ export default function Grid() {
     }
   }, []);
 
-  const drawLine = useCallback((letters: SelectedLetter[], color: string, isFound: boolean = false) => {
+  const drawLine = useCallback((letters: SelectedLetter[], color: string, isFound: boolean = false, isSpangram: boolean = false) => {
     const svg = svgRef.current;
     if (!svg) return;
 
@@ -153,9 +265,7 @@ export default function Grid() {
       line.setAttribute('stroke-width', '10');
       line.setAttribute('stroke-linecap', 'round');
       line.setAttribute('stroke-linejoin', 'round');
-      if (isFound) {
-        line.setAttribute('class', 'found-word-line');
-      }
+      line.setAttribute('class', isFound ? (isSpangram ? 'found-spangram-line' : 'found-word-line') : 'current-word-line');
 
       svg.appendChild(line);
     });
@@ -163,33 +273,57 @@ export default function Grid() {
 
   useEffect(() => {
     clearSVG();
-
-    // Draw lines for found words
-    foundWords.forEach(fw => drawLine(fw.letters, 'var(--game_blue)', true));
-
-    // Draw line for current selection
+    foundWords.forEach(fw => {
+      if (fw.isAnswer) {
+        drawLine(fw.letters, fw.isSpangram ? 'var(--game_red)' : 'var(--game_blue)', true, fw.isSpangram);
+      }
+    });
     if (selectedLetters.length >= 2) {
-      drawLine(selectedLetters, 'var(--game_green)');
+      drawLine(selectedLetters, 'var(--game_green)', false);
     }
   }, [selectedLetters, foundWords, clearSVG, drawLine]);
 
+  const handleUseHint = useCallback(() => {
+    if (availableHintsRef.current > 0) {
+      const hint = getRandomHint();
+      setCurrentHint(hint);
+      setPreviousHints(prev => [...prev, hint]);
+      usedHintsRef.current += 1;
+      availableHintsRef.current -= 1;
+      setUsedHints(usedHintsRef.current);
+      setAvailableHints(availableHintsRef.current);
+      setShowHint(true);
+    }
+  }, [getRandomHint]);
+
+
   return (
     <div className="container mx-auto p-4 max-w-4xl">
-      <h1 className="text-2xl font-bold mb-4 text-center">Strands Clone</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center"></h1>
 
       <Card className="mb-6 w-full mx-auto">
         <CardHeader className="pb-2">
-          <CardTitle className="text-4xl font-extrabold text-primary text-center">
+          <CardTitle className="text-5xl font-extrabold text-primary text-center">
             Today's Theme
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-xl text-center">{theme}</p>
+          <p className="text-3xl text-center font-bold text-gameGreen">{theme}</p>
         </CardContent>
       </Card>
 
-      <div className="flex justify-between prevent-select">
-        <div className="grid grid-cols-6 gap-3 mb-6 justify-center relative" ref={gridRef}>
+      <div className="flex flex-col items-center prevent-select">
+        <div className="mb-4 h-12 flex items-center justify-center text-3xl font-bold">
+          {hasWon ? (
+            <span className="text-gameRed">You win!</span>
+          ) : (
+            <span className="text-gameBlue">
+              {selectedLetters.map(letter => letter.letter).join('')}
+            </span>
+          )}
+        </div>
+
+        <div className="grid grid-cols-6 gap-2 mb-6 justify-center relative" ref={gridRef}>
           <svg ref={svgRef} className="absolute top-0 left-0 w-full h-full pointer-events-none" />
           {grid.map((row, rowIndex) =>
             row.map((letter, colIndex) => (
@@ -200,15 +334,18 @@ export default function Grid() {
                 <Button
                   id={`button-${rowIndex}-${colIndex}`}
                   variant="ghost"
-                  className={`w-12 h-12 rounded-full text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10 disabled:opacity-100 disabled:cursor-not-allowed
-                    transition-colors duration-100 ease-in-out disabled:0
-                    ${isLetterInFoundWord(rowIndex, colIndex) ? 'gameBlue' :
-                      isLetterSelected(rowIndex, colIndex) ? 'gameGreen' : 'bg-secondary'}`}
+                  className={`w-12 h-12 rounded-full text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10
+                    transition-colors duration-100 ease-in-out
+                    ${(() => {
+                      const foundStatus = isLetterInFoundWord(rowIndex, colIndex)
+                      if (foundStatus === 'spangram') return 'gameRed'
+                      if (foundStatus === 'answer') return 'gameBlue'
+                      return isLetterSelected(rowIndex, colIndex) ? 'gameGreen' : 'bg-secondary'
+                    })()}`}
                   onMouseDown={() => handleDragStart(rowIndex, colIndex)}
-                  onMouseEnter={() => {handleDrag(rowIndex, colIndex);}}
+                  onMouseEnter={() => handleDrag(rowIndex, colIndex)}
                   style={{ outline: 'none' }}
                   aria-label={`${letter} at row ${rowIndex + 1}, column ${colIndex + 1}`}
-                  disabled={isLetterInFoundWord(rowIndex, colIndex)}
                 >
                   {letter}
                 </Button>
@@ -217,33 +354,56 @@ export default function Grid() {
           )}
         </div>
 
-        <Card className="ml-6 w-48">
-          <CardHeader>
-            <CardTitle className="text-lg font-bold">Found Words</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul>
-              {foundWords.map((fw, index) => (
-                <li key={index} className="text-lg">{fw.word}</li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      </div>
+        <div className="w-full flex items-center justify-between mb-4">
+          <div className="w-1/5 ml-10">
+            <h3 className="text-lg font-semibold mb-2 text-left">Hint Progress</h3>
+            <Progress value={(hintProgress / 3) * 100} className="w-full" />
+          </div>
+          <div className="flex flex-col items-center mr-24">
+            <Button
+              style={{ outline: 'none' }}
+              className="prevent-select mb-2 hover:bg-parent hover:text-primary-background"
+              onClick={handleUseHint}
+              disabled={availableHints === 0 || hasWon}
+            >
+              Use Hint
+            </Button>
+            <small className="font-bold text-center">{3 - usedHints} Hints Left!</small>
+          </div>
+        </div>
 
-      <div className="flex justify-center mt-6">
-        <Button style={{ outline: 'none' }} className="prevent-select" onClick={() => setShowHint(!showHint)}>
-          {showHint ? "Hide Hint" : "Show Hint"}
-        </Button>
+        {showHint && previousHints.length > 0 && (
+          <div className="w-1/2 mx-auto mt-2">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="h-12">
+              {previousHints.length > 0 ? (
+                previousHints.map((hint, index) => (
+                  <CarouselItem key={index} className="basis-full">
+                    <div className="h-full flex items-center justify-center bg-secondary rounded-md px-4">
+                      <p className="text-sm font-medium truncate">{hint}</p>
+                    </div>
+                  </CarouselItem>
+                ))
+              ) : (
+                <CarouselItem className="basis-full">
+                  <div className="h-full flex items-center justify-center bg-secondary rounded-md px-4">
+                    <p className="text-sm font-medium text-muted-foreground">Find words to make Hints!</p>
+                  </div>
+                </CarouselItem>
+              )}
+            </CarouselContent>
+            <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
+            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
+          </Carousel>
+        </div>
+        )}
       </div>
-
-      {showHint && (
-        <Card className="mt-4 w-fit mx-auto">
-          <CardContent>
-            <p>Here's a hint: Look for words related to {theme.toLowerCase()} in the grid!</p>
-          </CardContent>
-        </Card>
-      )}
     </div>
-  );
+  )
 }
