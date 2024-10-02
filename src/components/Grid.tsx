@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Progress } from "@/components/ui/progress"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button";
 
 
@@ -45,7 +44,6 @@ import boardData from '../../scripts/BOARD.json';
 import wordsData from '../../scripts/WORDS.json';
 import hintsData from '../../scripts/HINTS.json';
 import definitionsData from '../../scripts/DEFINE.json';
-import { Accordion } from "@radix-ui/react-accordion";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "./ui/carousel";
 
 export default function Grid() {
@@ -53,10 +51,8 @@ export default function Grid() {
   const [selectedLetters, setSelectedLetters] = useState<SelectedLetter[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [foundWords, setFoundWords] = useState<FoundWord[]>([]);
-  const [currentHint, setCurrentHint] = useState<string>('');
-  const [hintPoints, setHintPoints] = useState<number>(0);
+  const [, setCurrentHint] = useState<string>('');
   const [previousHints, setPreviousHints] = useState<string[]>([]);
-  const [totalHintPoints, setTotalHintPoints] = useState<number>(0);
   const [hintProgress, setHintProgress] = useState<number>(0);
   const [availableHints, setAvailableHints] = useState<number>(0);
   const [usedHints, setUsedHints] = useState<number>(0);
