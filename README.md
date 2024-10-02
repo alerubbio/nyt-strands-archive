@@ -1,4 +1,4 @@
- # Wordle-Inspired Game
+ # NYT Strands-Inspired Game
 This project is a word game inspired by the New York Times' Strands game, built with React, Vite, and shadcn ui components styled with Tailwind CSS. It features daily themes, hints, and a dynamic grid interface, offering a unique twist on the popular word puzzle format.
  ## Features
  - Daily changing themes and word sets
