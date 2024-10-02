@@ -69,94 +69,86 @@
   }
 }
 
-@supports (-webkit-touch-callout: none) {
-  /* CSS specific to iOS devices */
-  body {
-    /* Disable overscroll behavior */
-    overscroll-behavior-y: none;
-  }
-
-  /* Fix for notched iPhones */
-  .container {
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  /* Ensure buttons are large enough for touch */
-  button {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
-  /* Improve touch area for grid buttons */
-  .grid button {
-    margin: 2px;
-    padding: 10px;
-  }
-
-  /* Ensure proper spacing on iOS */
-  .flex {
-    gap: 10px;
-  }
-
-  /* Fix for potential overlay issues */
-  .relative {
-    z-index: 1;
-  }
-
-  /* Ensure proper text rendering */
-  * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-}
-
-/* Additional responsive adjustments */
 @media screen and (max-width: 640px) {
   .container {
     padding-left: 10px;
     padding-right: 10px;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
   }
+}
 
-  h1 {
-    @apply text-3xl;
-  }
-
-  h2 {
-    @apply text-2xl;
-  }
-
-  .grid {
-    gap: 5px;
+@media screen and (max-width: 640px) {
+  .flex {
+    gap: 8px;
   }
 
   .flex-col {
-    gap: 15px;
+    gap: 12px;
+  }
+
+  .grid {
+    gap: 4px;
   }
 }
 
-/* Fix for potential Safari flexbox issues */
-@media not all and (min-resolution:.001dpcm) { 
-  @supports (-webkit-appearance:none) and (stroke-color:transparent) {
-    .flex {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
-    }
+@media screen and (max-width: 640px) {
+  button {
+    min-height: 36px;
+    min-width: 36px;
+    padding: 8px;
   }
 }
 
-/* Improved touch handling for mobile devices */
-@media (hover: none) and (pointer: coarse) {
-  button:hover {
-    background-color: inherit;
-  }
-  
-  button:active {
-    background-color: var(--game_gray);
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 640px) {
+  .game-grid {
+    gap: 8px;
+    max-width: 480px;
   }
 }
+
+.game-grid button {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0;
+}
+
+@media screen and (min-width: 640px) {
+  .game-grid button {
+    font-size: 24px;
+  }
+}
+
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-20 {
+  z-index: 20;
+}
+
 
 body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

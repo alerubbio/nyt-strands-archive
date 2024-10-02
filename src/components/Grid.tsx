@@ -435,11 +435,9 @@ export default function Grid() {
 
   return (
     <div className="container mx-auto p-2 sm:p-4 max-w-4xl">
-      <h1 className="text-2xl font-bold mb-4 text-center"></h1>
-
       <Card className="mb-4 sm:mb-6 w-full mx-auto">
         <CardHeader className="pb-2">
-          <CardTitle className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-primary text-center">
+          <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary text-center">
             Today's Theme
           </CardTitle>
         </CardHeader>
@@ -450,7 +448,7 @@ export default function Grid() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-col items-center prevent-select">
+      <div className="flex flex-col items-center no-select">
         <div className="mb-2 sm:mb-4 h-8 sm:h-12 flex items-center justify-center text-xl sm:text-2xl md:text-3xl font-bold">
           {hasWon ? (
             <span className="text-gameRed">You win!</span>
@@ -462,7 +460,7 @@ export default function Grid() {
         </div>
 
         <div
-          className="grid grid-cols-6 gap-1 sm:gap-2 mb-4 sm:mb-6 justify-center relative touch-none"
+          className="game-grid mb-4 sm:mb-6 touch-none z-10"
           ref={gridRef}
           onTouchMove={handleTouchMove}
         >
@@ -472,42 +470,37 @@ export default function Grid() {
           />
           {grid.map((row, rowIndex) =>
             row.map((letter, colIndex) => (
-              <div
+              <Button
                 key={`${rowIndex}-${colIndex}`}
-                className="flex items-center justify-center"
+                id={`button-${rowIndex}-${colIndex}`}
+                variant="ghost"
+                className={`rounded-full flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background
+                  transition-colors duration-100 ease-in-out
+                  ${(() => {
+                    const foundStatus = isLetterInFoundWord(
+                      rowIndex,
+                      colIndex
+                    );
+                    if (foundStatus === "spangram") return "gameRed";
+                    if (foundStatus === "answer") return "gameBlue";
+                    return isLetterSelected(rowIndex, colIndex)
+                      ? "gameGreen"
+                      : "bg-secondary";
+                  })()}`}
+                onMouseDown={() => handleDragStart(rowIndex, colIndex)}
+                onMouseEnter={() => handleDrag(rowIndex, colIndex)}
+                onTouchStart={() => handleTouchStart(rowIndex, colIndex)}
+                aria-label={`${letter} at row ${rowIndex + 1}, column ${
+                  colIndex + 1
+                }`}
               >
-                <Button
-                  id={`button-${rowIndex}-${colIndex}`}
-                  variant="ghost"
-                  className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full text-base sm:text-lg md:text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10
-                    transition-colors duration-100 ease-in-out
-                    ${(() => {
-                      const foundStatus = isLetterInFoundWord(
-                        rowIndex,
-                        colIndex
-                      );
-                      if (foundStatus === "spangram") return "gameRed";
-                      if (foundStatus === "answer") return "gameBlue";
-                      return isLetterSelected(rowIndex, colIndex)
-                        ? "gameGreen"
-                        : "bg-secondary";
-                    })()}`}
-                  onMouseDown={() => handleDragStart(rowIndex, colIndex)}
-                  onMouseEnter={() => handleDrag(rowIndex, colIndex)}
-                  onTouchStart={() => handleTouchStart(rowIndex, colIndex)}
-                  style={{ outline: "none" }}
-                  aria-label={`${letter} at row ${rowIndex + 1}, column ${
-                    colIndex + 1
-                  }`}
-                >
-                  {letter}
-                </Button>
-              </div>
+                {letter}
+              </Button>
             ))
           )}
         </div>
 
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between mb-4 space-y-4 sm:space-y-0">
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between mb-4 space-y-4 sm:space-y-0 sm:space-x-4 z-20">
           <div className="w-full sm:w-1/3">
             <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2 text-center sm:text-left">
               Hint Progress
@@ -516,7 +509,6 @@ export default function Grid() {
           </div>
           <div className="flex flex-col items-center">
             <Button
-              style={{ outline: "none" }}
               className="prevent-select mb-1 sm:mb-2 hover:bg-parent hover:text-primary-background"
               onClick={handleUseHint}
               disabled={availableHints === 0 || hasWon}
@@ -529,7 +521,7 @@ export default function Grid() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-around mt-4 sm:mt-6 space-y-2 sm:space-y-0 sm:space-x-4">
+        <div className="flex flex-col sm:flex-row justify-around mt-4 sm:mt-6 space-y-2 sm:space-y-0 sm:space-x-4 w-full z-20">
           {[1, 2, 3].map((hintNumber) => (
             <HoverCard key={hintNumber}>
               <HoverCardTrigger className="w-full sm:w-auto" asChild>
