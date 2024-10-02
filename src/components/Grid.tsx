@@ -530,8 +530,8 @@ export default function Grid() {
           )}
         </div>
 
-         <div
-          className="grid grid-cols-6 gap-1 sm:gap-2 mb-4 sm:mb-8 justify-center relative touch-none"
+        <div
+          className="grid grid-cols-6 gap-1 sm:gap-2 mb-8 sm:mb-12 justify-center relative touch-none"
           ref={gridRef}
           onTouchMove={handleTouchMove}
         >
@@ -567,7 +567,7 @@ export default function Grid() {
           )}
         </div>
 
-        <div className="w-full flex flex-col items-center justify-between mb-4">
+        <div className="w-full flex flex-col items-center justify-between mb-8">
           <div className="w-full mb-4">
             <h3 className="text-lg font-semibold mb-2 text-center">
               Hint Progress
