@@ -64,6 +64,8 @@ export default function Grid() {
   const gridRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
+  
+  
   const grid = useMemo(() => (boardData as BoardData).board, []);
   const validWords = useMemo(
     () => (wordsData as WordsData).words.split(", "),
@@ -73,6 +75,18 @@ export default function Grid() {
   const theme = useMemo(() => (wordsData as WordsData).theme, []);
   const hintWords = useMemo(() => (hintsData as HintsData).words, []);
   const definitions = useMemo(() => definitionsData as DefinitionsData, []);
+  
+  const [isGridReady, setIsGridReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsGridReady(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
 
   const remainingAnswerWords = useMemo(() => {
     const foundAnswerWords = new Set(
@@ -328,7 +342,6 @@ export default function Grid() {
       const svg = svgRef.current;
       if (!svg || !gridRef.current) return;
 
-      // Update SVG viewBox to match grid dimensions
       const gridRect = gridRef.current.getBoundingClientRect();
       svg.setAttribute('viewBox', `0 0 ${gridRect.width} ${gridRect.height}`);
       svg.style.width = `${gridRect.width}px`;
@@ -349,7 +362,7 @@ export default function Grid() {
         line.setAttribute("x2", String(x2 + width / 2));
         line.setAttribute("y2", String(y2 + height / 2));
         line.setAttribute("stroke", color);
-        line.setAttribute("stroke-width", "8");
+        line.setAttribute("stroke-width", "5");
         line.setAttribute("stroke-linecap", "round");
         line.setAttribute("stroke-linejoin", "round");
         line.setAttribute(
@@ -362,13 +375,33 @@ export default function Grid() {
         );
 
         svg.appendChild(line);
-        
-        // Debugging: Log line coordinates
-        console.log(`Line drawn: (${x1 + width / 2}, ${y1 + height / 2}) to (${x2 + width / 2}, ${y2 + height / 2})`);
       });
     },
     [getButtonPosition]
   );
+
+  const redrawLines = useCallback(() => {
+    foundWords.forEach((fw) => {
+      if (fw.isAnswer) {
+        drawLine(
+          fw.letters,
+          fw.isSpangram ? "var(--game_red)" : "var(--game_blue)",
+          true,
+          fw.isSpangram
+        );
+      }
+    });
+    if (selectedLetters.length >= 2) {
+      drawLine(selectedLetters, "var(--game_green)", false);
+    }
+  }, [foundWords, selectedLetters, drawLine]);
+
+
+  useEffect(() => {
+    if (isGridReady) {
+      redrawLines();
+    }
+  }, [isGridReady, redrawLines]);
 
   const clearSVG = useCallback(() => {
     const svg = svgRef.current;
@@ -378,6 +411,25 @@ export default function Grid() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (isGridReady) {
+      const resizeObserver = new ResizeObserver(() => {
+        clearSVG();
+        redrawLines();
+      });
+
+      if (gridRef.current) {
+        resizeObserver.observe(gridRef.current);
+      }
+
+      return () => {
+        if (gridRef.current) {
+          resizeObserver.unobserve(gridRef.current);
+        }
+      };
+    }
+  }, [isGridReady, clearSVG]);
 
   useEffect(() => {
     const handleResize = () => {
