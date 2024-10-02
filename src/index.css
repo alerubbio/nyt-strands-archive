@@ -69,95 +69,6 @@
   }
 }
 
-@supports (-webkit-touch-callout: none) {
-  /* CSS specific to iOS devices */
-  body {
-    /* Disable overscroll behavior */
-    overscroll-behavior-y: none;
-  }
-
-  /* Fix for notched iPhones */
-  .container {
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  /* Ensure buttons are large enough for touch */
-  button {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
-  /* Improve touch area for grid buttons */
-  .grid button {
-    margin: 2px;
-    padding: 10px;
-  }
-
-  /* Ensure proper spacing on iOS */
-  .flex {
-    gap: 10px;
-  }
-
-  /* Fix for potential overlay issues */
-  .relative {
-    z-index: 1;
-  }
-
-  /* Ensure proper text rendering */
-  * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-}
-
-/* Additional responsive adjustments */
-@media screen and (max-width: 640px) {
-  .container {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  h1 {
-    @apply text-3xl;
-  }
-
-  h2 {
-    @apply text-2xl;
-  }
-
-  .grid {
-    gap: 5px;
-  }
-
-  .flex-col {
-    gap: 15px;
-  }
-}
-
-/* Fix for potential Safari flexbox issues */
-@media not all and (min-resolution:.001dpcm) { 
-  @supports (-webkit-appearance:none) and (stroke-color:transparent) {
-    .flex {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
-    }
-  }
-}
-
-/* Improved touch handling for mobile devices */
-@media (hover: none) and (pointer: coarse) {
-  button:hover {
-    /* background-color: inherit; */
-  }
-  
-  button:active {
-    background-color: var(--game_gray);
-  }
-}
-
 body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -167,7 +78,7 @@ body {
   min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* h1, h2, h3, h4, h5, h6 {
   @apply font-bold tracking-tight;
 }
 
@@ -182,13 +93,7 @@ h2 {
 a {
   @apply font-medium text-primary hover:text-primary/80 transition-colors;
   text-decoration: none;
-}
-
-.prevent-select {
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+} */
 
 .found-word-line {
   stroke: var(--game_blue);
@@ -215,7 +120,6 @@ a {
 
 .gameGray {
   background-color: var(--game_gray);
-  /* color: var(--game_white); */
 }
 
 .text-gameBlue {
