@@ -40,10 +40,10 @@ interface FoundWord {
 }
 
 // Import JSON data
-import boardData from "../../scripts/BOARD.json";
-import wordsData from "../../scripts/WORDS.json";
-import hintsData from "../../scripts/HINTS.json";
-import definitionsData from "../../scripts/DEFINE.json";
+import boardData from "../../data/BOARD.json";
+import wordsData from "../../data/WORDS.json";
+import hintsData from "../../data/HINTS.json";
+import definitionsData from "../../data/DEFINE.json";
 
 export default function Grid() {
   const [, setShowHint] = useState<boolean>(false);
@@ -514,7 +514,7 @@ export default function Grid() {
           </h3>
           <Progress value={(hintProgress / 3) * 100} className="w-full" />
         </div>
-        <div className="flex flex-col items-center mr-12">
+        <div className="flex flex-col items-center mx-12">
           <Button
             style={{ outline: "none" }}
             className="prevent-select mb-2 hover:bg-parent hover:text-primary-background"
