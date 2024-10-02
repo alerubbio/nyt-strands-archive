@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Progress } from "@/components/ui/progress"
+import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-
 
 interface BoardData {
   date: string;
@@ -40,18 +39,24 @@ interface FoundWord {
 }
 
 // Import JSON data
-import boardData from '../../scripts/BOARD.json';
-import wordsData from '../../scripts/WORDS.json';
-import hintsData from '../../scripts/HINTS.json';
-import definitionsData from '../../scripts/DEFINE.json';
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "./ui/carousel";
+import boardData from "../../scripts/BOARD.json";
+import wordsData from "../../scripts/WORDS.json";
+import hintsData from "../../scripts/HINTS.json";
+import definitionsData from "../../scripts/DEFINE.json";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "./ui/carousel";
 
 export default function Grid() {
   const [showHint, setShowHint] = useState<boolean>(false);
   const [selectedLetters, setSelectedLetters] = useState<SelectedLetter[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [foundWords, setFoundWords] = useState<FoundWord[]>([]);
-  const [, setCurrentHint] = useState<string>('');
+  const [, setCurrentHint] = useState<string>("");
   const [previousHints, setPreviousHints] = useState<string[]>([]);
   const [hintProgress, setHintProgress] = useState<number>(0);
   const [availableHints, setAvailableHints] = useState<number>(0);
@@ -67,21 +72,29 @@ export default function Grid() {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const grid = useMemo(() => (boardData as BoardData).board, []);
-  const validWords = useMemo(() => (wordsData as WordsData).words.split(", "), []);
+  const validWords = useMemo(
+    () => (wordsData as WordsData).words.split(", "),
+    []
+  );
   const spangram = useMemo(() => (wordsData as WordsData).spangram, []);
   const theme = useMemo(() => (wordsData as WordsData).theme, []);
   const hintWords = useMemo(() => (hintsData as HintsData).words, []);
   const definitions = useMemo(() => definitionsData as DefinitionsData, []);
 
   const remainingAnswerWords = useMemo(() => {
-    const foundAnswerWords = new Set(foundWords.filter(fw => fw.isAnswer).map(fw => fw.word));
-    return validWords.filter(word => !foundAnswerWords.has(word));
+    const foundAnswerWords = new Set(
+      foundWords.filter((fw) => fw.isAnswer).map((fw) => fw.word)
+    );
+    return validWords.filter((word) => !foundAnswerWords.has(word));
   }, [validWords, foundWords]);
 
-  const isAdjacent = (prev: SelectedLetter, current: SelectedLetter): boolean => {
+  const isAdjacent = (
+    prev: SelectedLetter,
+    current: SelectedLetter
+  ): boolean => {
     const rowDiff = Math.abs(prev.rowIndex - current.rowIndex);
     const colDiff = Math.abs(prev.colIndex - current.colIndex);
-    return (rowDiff <= 1 && colDiff <= 1) && (rowDiff + colDiff > 0);
+    return rowDiff <= 1 && colDiff <= 1 && rowDiff + colDiff > 0;
   };
 
   useEffect(() => {
@@ -90,30 +103,49 @@ export default function Grid() {
     }
   }, [remainingAnswerWords]);
 
-  const handleDragStart = useCallback((rowIndex: number, colIndex: number) => {
-    setIsDragging(true);
-    setSelectedLetters([{ rowIndex, colIndex, letter: grid[rowIndex][colIndex] }]);
-  }, [grid]);
+  const handleDragStart = useCallback(
+    (rowIndex: number, colIndex: number) => {
+      setIsDragging(true);
+      setSelectedLetters([
+        { rowIndex, colIndex, letter: grid[rowIndex][colIndex] },
+      ]);
+    },
+    [grid]
+  );
 
-  const handleDrag = useCallback((rowIndex: number, colIndex: number) => {
-    if (isDragging) {
-      setSelectedLetters(prev => {
-        const lastSelected = prev[prev.length - 1];
-        const newLetter = { rowIndex, colIndex, letter: grid[rowIndex][colIndex] };
+  const handleDrag = useCallback(
+    (rowIndex: number, colIndex: number) => {
+      if (isDragging) {
+        setSelectedLetters((prev) => {
+          const lastSelected = prev[prev.length - 1];
+          const newLetter = {
+            rowIndex,
+            colIndex,
+            letter: grid[rowIndex][colIndex],
+          };
 
-        if (prev.slice(0, -1).some(letter => letter.rowIndex === rowIndex && letter.colIndex === colIndex)) {
-          return prev;
-        }
+          if (
+            prev
+              .slice(0, -1)
+              .some(
+                (letter) =>
+                  letter.rowIndex === rowIndex && letter.colIndex === colIndex
+              )
+          ) {
+            return prev;
+          }
 
-        if (!isAdjacent(lastSelected, newLetter)) {
-          return prev;
-        }
+          if (!isAdjacent(lastSelected, newLetter)) {
+            return prev;
+          }
 
-        return [...prev, newLetter];
-      });
-    }
-  }, [isDragging, grid]);
-  
+          return [...prev, newLetter];
+        });
+      }
+    },
+    [isDragging, grid]
+  );
+
   const canEarnMoreHints = useCallback(() => {
     return availableHintsRef.current + usedHintsRef.current < 3;
   }, []);
@@ -121,46 +153,66 @@ export default function Grid() {
   const handleDragEnd = useCallback(() => {
     setIsDragging(false);
     const word = selectedLetters.map((item) => item.letter).join("");
-    
-    if (word === spangram && !foundWords.some(fw => fw.word === word)) {
+
+    if (word === spangram && !foundWords.some((fw) => fw.word === word)) {
       // Handle Spangram
-      setFoundWords(prev => [...prev, { 
-        word, 
-        letters: selectedLetters, 
-        isAnswer: true, 
-        usedForHint: false,
-        isSpangram: true
-      }]);
+      setFoundWords((prev) => [
+        ...prev,
+        {
+          word,
+          letters: selectedLetters,
+          isAnswer: true,
+          usedForHint: false,
+          isSpangram: true,
+        },
+      ]);
       console.log(`Spangram found: ${word}`);
-    } else if (validWords.includes(word) && !foundWords.some(fw => fw.word === word)) {
+    } else if (
+      validWords.includes(word) &&
+      !foundWords.some((fw) => fw.word === word)
+    ) {
       // Handle regular answer words
-      setFoundWords(prev => [...prev, { 
-        word, 
-        letters: selectedLetters, 
-        isAnswer: true, 
-        usedForHint: false,
-        isSpangram: false
-      }]);
+      setFoundWords((prev) => [
+        ...prev,
+        {
+          word,
+          letters: selectedLetters,
+          isAnswer: true,
+          usedForHint: false,
+          isSpangram: false,
+        },
+      ]);
       console.log(`Answer word found: ${word}`);
-    } else if (hintWords.includes(word) && !foundWords.some(fw => fw.word === word)) {
+    } else if (
+      hintWords.includes(word) &&
+      !foundWords.some((fw) => fw.word === word)
+    ) {
       // Handle hint words
-      setFoundWords(prev => [...prev, { 
-        word, 
-        letters: selectedLetters, 
-        isAnswer: false, 
-        usedForHint: false,
-        isSpangram: false
-      }]);
+      setFoundWords((prev) => [
+        ...prev,
+        {
+          word,
+          letters: selectedLetters,
+          isAnswer: false,
+          usedForHint: false,
+          isSpangram: false,
+        },
+      ]);
       if (canEarnMoreHints()) {
         hintProgressRef.current += 1;
         console.log(`Hint progress: ${hintProgressRef.current}/3`);
-        
+
         if (hintProgressRef.current === 3) {
-          availableHintsRef.current = Math.min(availableHintsRef.current + 1, 3 - usedHintsRef.current);
-          console.log(`New hint available. Total available: ${availableHintsRef.current}`);
+          availableHintsRef.current = Math.min(
+            availableHintsRef.current + 1,
+            3 - usedHintsRef.current
+          );
+          console.log(
+            `New hint available. Total available: ${availableHintsRef.current}`
+          );
           hintProgressRef.current = 0;
         }
-        
+
         setHintProgress(hintProgressRef.current);
         setAvailableHints(availableHintsRef.current);
       } else {
@@ -169,40 +221,67 @@ export default function Grid() {
       console.log(`Hint word found: ${word}`);
     }
     setSelectedLetters([]);
-  }, [selectedLetters, validWords, hintWords, foundWords, spangram, canEarnMoreHints]);
+  }, [
+    selectedLetters,
+    validWords,
+    hintWords,
+    foundWords,
+    spangram,
+    canEarnMoreHints,
+  ]);
 
-  const isLetterSelected = useCallback((rowIndex: number, colIndex: number): boolean => {
-    return selectedLetters.some(item => item.rowIndex === rowIndex && item.colIndex === colIndex);
-  }, [selectedLetters]);
+  const isLetterSelected = useCallback(
+    (rowIndex: number, colIndex: number): boolean => {
+      return selectedLetters.some(
+        (item) => item.rowIndex === rowIndex && item.colIndex === colIndex
+      );
+    },
+    [selectedLetters]
+  );
 
-  const isLetterInFoundWord = useCallback((rowIndex: number, colIndex: number): string | false => {
-    const foundWord = foundWords.find(fw => 
-      fw.isAnswer && fw.letters.some(letter => letter.rowIndex === rowIndex && letter.colIndex === colIndex)
-    );
-    if (foundWord) {
-      return foundWord.isSpangram ? 'spangram' : 'answer';
-    }
-    return false;
-  }, [foundWords]);
+  const isLetterInFoundWord = useCallback(
+    (rowIndex: number, colIndex: number): string | false => {
+      const foundWord = foundWords.find(
+        (fw) =>
+          fw.isAnswer &&
+          fw.letters.some(
+            (letter) =>
+              letter.rowIndex === rowIndex && letter.colIndex === colIndex
+          )
+      );
+      if (foundWord) {
+        return foundWord.isSpangram ? "spangram" : "answer";
+      }
+      return false;
+    },
+    [foundWords]
+  );
 
   const getRandomHint = useCallback(() => {
     if (remainingAnswerWords.length === 0) {
-      return spangram ? "Only the Spangram remains!" : "Congratulations! You've found all the words!";
+      return spangram
+        ? "Only the Spangram remains!"
+        : "Congratulations! You've found all the words!";
     }
-    if (remainingAnswerWords.length === 1 && remainingAnswerWords[0] === spangram) {
+    if (
+      remainingAnswerWords.length === 1 &&
+      remainingAnswerWords[0] === spangram
+    ) {
       return "Only the Spangram remains!";
     }
-    
-    const unusedWords = remainingAnswerWords.filter((_, index) => !usedHintIndices.includes(index));
+
+    const unusedWords = remainingAnswerWords.filter(
+      (_, index) => !usedHintIndices.includes(index)
+    );
     if (unusedWords.length === 0) {
       return "All available hints have been used!";
     }
-    
+
     const randomIndex = Math.floor(Math.random() * unusedWords.length);
     const randomWord = unusedWords[randomIndex];
     const originalIndex = remainingAnswerWords.indexOf(randomWord);
-    setUsedHintIndices(prev => [...prev, originalIndex]);
-    
+    setUsedHintIndices((prev) => [...prev, originalIndex]);
+
     return `${definitions[randomWord]}`;
   }, [remainingAnswerWords, spangram, definitions, usedHintIndices]);
 
@@ -213,15 +292,17 @@ export default function Grid() {
       }
     };
 
-    window.addEventListener('mouseup', handleGlobalMouseUp);
+    window.addEventListener("mouseup", handleGlobalMouseUp);
     return () => {
-      window.removeEventListener('mouseup', handleGlobalMouseUp);
+      window.removeEventListener("mouseup", handleGlobalMouseUp);
     };
   }, [isDragging, handleDragEnd]);
 
   const getButtonPosition = (rowIndex: number, colIndex: number) => {
     if (!gridRef.current) return { x: 0, y: 0, width: 0, height: 0 };
-    const button = gridRef.current.querySelector(`#button-${rowIndex}-${colIndex}`);
+    const button = gridRef.current.querySelector(
+      `#button-${rowIndex}-${colIndex}`
+    );
     if (!button) return { x: 0, y: 0, width: 0, height: 0 };
     const rect = button.getBoundingClientRect();
     const gridRect = gridRef.current.getBoundingClientRect();
@@ -229,7 +310,7 @@ export default function Grid() {
       x: rect.left - gridRect.left,
       y: rect.top - gridRect.top,
       width: rect.width,
-      height: rect.height
+      height: rect.height,
     };
   };
 
@@ -242,40 +323,71 @@ export default function Grid() {
     }
   }, []);
 
-  const drawLine = useCallback((letters: SelectedLetter[], color: string, isFound: boolean = false, isSpangram: boolean = false) => {
-    const svg = svgRef.current;
-    if (!svg) return;
+  const drawLine = useCallback(
+    (
+      letters: SelectedLetter[],
+      color: string,
+      isFound: boolean = false,
+      isSpangram: boolean = false
+    ) => {
+      const svg = svgRef.current;
+      if (!svg) return;
 
-    letters.forEach((letter, index) => {
-      if (index === 0) return;
-      const prev = letters[index - 1];
-      const { x: x1, y: y1, width, height } = getButtonPosition(prev.rowIndex, prev.colIndex);
-      const { x: x2, y: y2 } = getButtonPosition(letter.rowIndex, letter.colIndex);
+      letters.forEach((letter, index) => {
+        if (index === 0) return;
+        const prev = letters[index - 1];
+        const {
+          x: x1,
+          y: y1,
+          width,
+          height,
+        } = getButtonPosition(prev.rowIndex, prev.colIndex);
+        const { x: x2, y: y2 } = getButtonPosition(
+          letter.rowIndex,
+          letter.colIndex
+        );
 
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', String(x1 + width / 2));
-      line.setAttribute('y1', String(y1 + height / 2));
-      line.setAttribute('x2', String(x2 + width / 2));
-      line.setAttribute('y2', String(y2 + height / 2));
-      line.setAttribute('stroke', color);
-      line.setAttribute('stroke-width', '10');
-      line.setAttribute('stroke-linecap', 'round');
-      line.setAttribute('stroke-linejoin', 'round');
-      line.setAttribute('class', isFound ? (isSpangram ? 'found-spangram-line' : 'found-word-line') : 'current-word-line');
+        const line = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "line"
+        );
+        line.setAttribute("x1", String(x1 + width / 2));
+        line.setAttribute("y1", String(y1 + height / 2));
+        line.setAttribute("x2", String(x2 + width / 2));
+        line.setAttribute("y2", String(y2 + height / 2));
+        line.setAttribute("stroke", color);
+        line.setAttribute("stroke-width", "10");
+        line.setAttribute("stroke-linecap", "round");
+        line.setAttribute("stroke-linejoin", "round");
+        line.setAttribute(
+          "class",
+          isFound
+            ? isSpangram
+              ? "found-spangram-line"
+              : "found-word-line"
+            : "current-word-line"
+        );
 
-      svg.appendChild(line);
-    });
-  }, [getButtonPosition]);
+        svg.appendChild(line);
+      });
+    },
+    [getButtonPosition]
+  );
 
   useEffect(() => {
     clearSVG();
-    foundWords.forEach(fw => {
+    foundWords.forEach((fw) => {
       if (fw.isAnswer) {
-        drawLine(fw.letters, fw.isSpangram ? 'var(--game_red)' : 'var(--game_blue)', true, fw.isSpangram);
+        drawLine(
+          fw.letters,
+          fw.isSpangram ? "var(--game_red)" : "var(--game_blue)",
+          true,
+          fw.isSpangram
+        );
       }
     });
     if (selectedLetters.length >= 2) {
-      drawLine(selectedLetters, 'var(--game_green)', false);
+      drawLine(selectedLetters, "var(--game_green)", false);
     }
   }, [selectedLetters, foundWords, clearSVG, drawLine]);
 
@@ -283,7 +395,7 @@ export default function Grid() {
     if (availableHintsRef.current > 0) {
       const hint = getRandomHint();
       setCurrentHint(hint);
-      setPreviousHints(prev => [...prev, hint]);
+      setPreviousHints((prev) => [...prev, hint]);
       usedHintsRef.current += 1;
       availableHintsRef.current -= 1;
       setUsedHints(usedHintsRef.current);
@@ -291,7 +403,6 @@ export default function Grid() {
       setShowHint(true);
     }
   }, [getRandomHint]);
-
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -304,7 +415,9 @@ export default function Grid() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-3xl text-center font-bold text-gameGreen">{theme}</p>
+          <p className="text-3xl text-center font-bold text-gameGreen">
+            {theme}
+          </p>
         </CardContent>
       </Card>
 
@@ -314,13 +427,19 @@ export default function Grid() {
             <span className="text-gameRed">You win!</span>
           ) : (
             <span className="text-gameBlue">
-              {selectedLetters.map(letter => letter.letter).join('')}
+              {selectedLetters.map((letter) => letter.letter).join("")}
             </span>
           )}
         </div>
 
-        <div className="grid grid-cols-6 gap-2 mb-6 justify-center relative" ref={gridRef}>
-          <svg ref={svgRef} className="absolute top-0 left-0 w-full h-full pointer-events-none" />
+        <div
+          className="grid grid-cols-6 gap-2 mb-6 justify-center relative"
+          ref={gridRef}
+        >
+          <svg
+            ref={svgRef}
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+          />
           {grid.map((row, rowIndex) =>
             row.map((letter, colIndex) => (
               <div
@@ -333,15 +452,22 @@ export default function Grid() {
                   className={`w-12 h-12 rounded-full text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10
                     transition-colors duration-100 ease-in-out
                     ${(() => {
-                      const foundStatus = isLetterInFoundWord(rowIndex, colIndex)
-                      if (foundStatus === 'spangram') return 'gameRed'
-                      if (foundStatus === 'answer') return 'gameBlue'
-                      return isLetterSelected(rowIndex, colIndex) ? 'gameGreen' : 'bg-secondary'
+                      const foundStatus = isLetterInFoundWord(
+                        rowIndex,
+                        colIndex
+                      );
+                      if (foundStatus === "spangram") return "gameRed";
+                      if (foundStatus === "answer") return "gameBlue";
+                      return isLetterSelected(rowIndex, colIndex)
+                        ? "gameGreen"
+                        : "bg-secondary";
                     })()}`}
                   onMouseDown={() => handleDragStart(rowIndex, colIndex)}
                   onMouseEnter={() => handleDrag(rowIndex, colIndex)}
-                  style={{ outline: 'none' }}
-                  aria-label={`${letter} at row ${rowIndex + 1}, column ${colIndex + 1}`}
+                  style={{ outline: "none" }}
+                  aria-label={`${letter} at row ${rowIndex + 1}, column ${
+                    colIndex + 1
+                  }`}
                 >
                   {letter}
                 </Button>
@@ -352,54 +478,60 @@ export default function Grid() {
 
         <div className="w-full flex items-center justify-between mb-4">
           <div className="w-1/5 ml-10">
-            <h3 className="text-lg font-semibold mb-2 text-left">Hint Progress</h3>
+            <h3 className="text-lg font-semibold mb-2 text-left">
+              Hint Progress
+            </h3>
             <Progress value={(hintProgress / 3) * 100} className="w-full" />
           </div>
           <div className="flex flex-col items-center mr-24">
             <Button
-              style={{ outline: 'none' }}
+              style={{ outline: "none" }}
               className="prevent-select mb-2 hover:bg-parent hover:text-primary-background"
               onClick={handleUseHint}
               disabled={availableHints === 0 || hasWon}
             >
               Use Hint
             </Button>
-            <small className="font-bold text-center">{3 - usedHints} Hints Left!</small>
+            <small className="font-bold text-center">
+              {3 - usedHints} Hints Left!
+            </small>
           </div>
         </div>
 
         {showHint && previousHints.length > 0 && (
           <div className="w-1/2 mx-auto mt-6">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent className="h-12">
-              {previousHints.length > 0 ? (
-                previousHints.map((hint, index) => (
-                  <CarouselItem key={index} className="basis-full">
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="h-12">
+                {previousHints.length > 0 ? (
+                  previousHints.map((hint, index) => (
+                    <CarouselItem key={index} className="basis-full">
+                      <div className="h-full flex items-center justify-center bg-secondary rounded-md px-4">
+                        <p className="text-sm font-medium truncate">{hint}</p>
+                      </div>
+                    </CarouselItem>
+                  ))
+                ) : (
+                  <CarouselItem className="basis-full">
                     <div className="h-full flex items-center justify-center bg-secondary rounded-md px-4">
-                      <p className="text-sm font-medium truncate">{hint}</p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Find words to make Hints!
+                      </p>
                     </div>
                   </CarouselItem>
-                ))
-              ) : (
-                <CarouselItem className="basis-full">
-                  <div className="h-full flex items-center justify-center bg-secondary rounded-md px-4">
-                    <p className="text-sm font-medium text-muted-foreground">Find words to make Hints!</p>
-                  </div>
-                </CarouselItem>
-              )}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
-          </Carousel>
-        </div>
+                )}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
+              <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
+            </Carousel>
+          </div>
         )}
       </div>
     </div>
-  )
+  );
 }
