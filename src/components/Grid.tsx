@@ -537,7 +537,7 @@ export default function Grid() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center mt-4 sm:mt-6 w-full">
+        <div className="flex flex-col sm:flex-row justify-around mt-4 sm:mt-6 w-full">
           {[1, 2, 3].map((hintNumber) => (
             <HoverCard key={hintNumber}>
               <HoverCardTrigger className="mx-2 mb-2 sm:mb-0 w-full sm:w-auto" asChild>
