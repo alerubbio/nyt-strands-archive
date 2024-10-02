@@ -66,14 +66,30 @@ def print_board(board):
     for row in board:
         print(' '.join(row))
 
-def export_to_json(board, date, filename="../data/BOARD.json"):
+def export_to_json(board, date):
     data = {
         "date": date,
         "board": board
     }
-    with open(filename, 'w') as f:
-        json.dump(data, f, indent=2)
-    print(f"Board exported to {filename}")
+    
+    # Try different possible locations for the data directory
+    possible_paths = [
+        '../data/BOARD.json',
+        './data/BOARD.json',
+        'BOARD.json'
+    ]
+    
+    for filename in possible_paths:
+        try:
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
+            with open(filename, 'w') as f:
+                json.dump(data, f, indent=2)
+            print(f"Board exported to {filename}")
+            return
+        except IOError as e:
+            print(f"Could not write to {filename}: {e}")
+    
+    print("Failed to export board to any of the attempted locations.")
 
 def main():
     if len(sys.argv) > 1:
