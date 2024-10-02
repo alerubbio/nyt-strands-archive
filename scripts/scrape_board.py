@@ -66,7 +66,7 @@ def print_board(board):
     for row in board:
         print(' '.join(row))
 
-def export_to_json(board, date, filename="BOARD.json"):
+def export_to_json(board, date, filename="../data/BOARD.json"):
     data = {
         "date": date,
         "board": board

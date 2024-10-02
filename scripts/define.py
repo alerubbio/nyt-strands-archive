@@ -20,8 +20,8 @@ def get_definition(word):
     return None
 
 def fetch_and_store_definitions():
-    words_file = 'WORDS.json'
-    define_file = 'DEFINE.json'
+    words_file = '../data/WORDS.json'
+    define_file = '../data/DEFINE.json'
 
     words = load_words(words_file)
     definitions = {}
