@@ -521,7 +521,7 @@ export default function Grid() {
             onClick={handleUseHint}
             disabled={availableHints === 0 || hasWon}
           >
-            Use Hint
+            Claim Hint
           </Button>
           <small className="font-bold text-center">
             {3-usedHints} Hints Left!
