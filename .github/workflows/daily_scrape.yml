@@ -32,7 +32,7 @@ jobs:
     - name: Run hints scraping script
       run: python ./scripts/scrape_hints.py
       
-    - name: Run hints scraping script
+    - name: Run word defining script
       run: python ./scripts/define.py
     
     - name: Commit and push if changed
