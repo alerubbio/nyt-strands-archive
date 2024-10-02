@@ -31,12 +31,15 @@ jobs:
 
     - name: Run hints scraping script
       run: python ./scripts/scrape_hints.py
+      
+    - name: Run hints scraping script
+      run: python ./scripts/define.py
     
     - name: Commit and push if changed
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        git add --all
+        git add BOARD.json DEFINE.json HINTS.json WORDS.json
         timestamp=$(date -u "+%Y-%m-%d %H:%M:%S UTC")
         git commit -m "Update Strands Game Data $timestamp" || exit 0
         git push
