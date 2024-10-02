@@ -150,7 +150,7 @@
 /* Improved touch handling for mobile devices */
 @media (hover: none) and (pointer: coarse) {
   button:hover {
-    background-color: inherit;
+    /* background-color: inherit; */
   }
   
   button:active {

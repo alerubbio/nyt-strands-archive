@@ -515,7 +515,7 @@ export default function Grid() {
           )}
         </div>
 
-        <div className="w-full flex flex-col items-center justify-between mb-4">
+        <div className="w-1/2 flex flex-col items-center justify-between mb-4">
           <div className="w-full mb-4">
             <h3 className="text-lg font-semibold mb-2 text-center">
               Hint Progress
@@ -537,7 +537,7 @@ export default function Grid() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-around mt-4 sm:mt-6 w-full">
+        <div className="flex flex-col sm:flex-row justify-center mt-4 sm:mt-6 w-full">
           {[1, 2, 3].map((hintNumber) => (
             <HoverCard key={hintNumber}>
               <HoverCardTrigger className="mx-2 mb-2 sm:mb-0 w-full sm:w-auto" asChild>
