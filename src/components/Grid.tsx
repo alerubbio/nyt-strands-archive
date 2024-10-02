@@ -232,15 +232,16 @@ export default function Grid() {
     [selectedLetters]
   );
 
+  
   const isLetterInFoundWord = useCallback(
     (rowIndex: number, colIndex: number): string | false => {
       const foundWord = foundWords.find(
         (fw) =>
           fw.isAnswer &&
-          fw.letters.some(
-            (letter) =>
-              letter.rowIndex === rowIndex && letter.colIndex === colIndex
-          )
+        fw.letters.some(
+          (letter) =>
+            letter.rowIndex === rowIndex && letter.colIndex === colIndex
+        )
       );
       if (foundWord) {
         return foundWord.isSpangram ? "spangram" : "answer";
@@ -248,6 +249,16 @@ export default function Grid() {
       return false;
     },
     [foundWords]
+  );
+
+  const getLetterClassName = useCallback(
+    (rowIndex: number, colIndex: number): string => {
+      const foundStatus = isLetterInFoundWord(rowIndex, colIndex);
+      if (foundStatus === "spangram") return "gameRed";
+      if (foundStatus === "answer") return "gameBlue";
+      return isLetterSelected(rowIndex, colIndex) ? "gameGreen" : "bg-secondary";
+    },
+    [isLetterInFoundWord, isLetterSelected]
   );
 
   const getRandomHint = useCallback(() => {
@@ -338,7 +349,7 @@ export default function Grid() {
         line.setAttribute("x2", String(x2 + width / 2));
         line.setAttribute("y2", String(y2 + height / 2));
         line.setAttribute("stroke", color);
-        line.setAttribute("stroke-width", "5");
+        line.setAttribute("stroke-width", "8");
         line.setAttribute("stroke-linecap", "round");
         line.setAttribute("stroke-linejoin", "round");
         line.setAttribute(
@@ -426,7 +437,6 @@ export default function Grid() {
     },
     [isDragging, handleDrag]
   );
-
   useEffect(() => {
     const handleGlobalTouchEnd = () => {
       if (isDragging) {
@@ -468,7 +478,7 @@ export default function Grid() {
           )}
         </div>
 
-        <div
+         <div
           className="grid grid-cols-6 gap-1 sm:gap-2 mb-4 sm:mb-8 justify-center relative touch-none"
           ref={gridRef}
           onTouchMove={handleTouchMove}
@@ -489,17 +499,7 @@ export default function Grid() {
                   variant="ghost"
                   className={`w-8 h-8 sm:w-12 sm:h-12 rounded-full text-base sm:text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10
                     transition-colors duration-100 ease-in-out
-                    ${(() => {
-                      const foundStatus = isLetterInFoundWord(
-                        rowIndex,
-                        colIndex
-                      );
-                      if (foundStatus === "spangram") return "gameRed";
-                      if (foundStatus === "answer") return "gameBlue";
-                      return isLetterSelected(rowIndex, colIndex)
-                        ? "gameGreen"
-                        : "bg-secondary";
-                    })()}`}
+                    ${getLetterClassName(rowIndex, colIndex)}`}
                   onMouseDown={() => handleDragStart(rowIndex, colIndex)}
                   onMouseEnter={() => handleDrag(rowIndex, colIndex)}
                   onTouchStart={() => handleTouchStart(rowIndex, colIndex)}
