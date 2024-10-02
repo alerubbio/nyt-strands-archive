@@ -295,7 +295,7 @@ export default function Grid() {
     if (!gridRef.current) return { x: 0, y: 0, width: 0, height: 0 };
     const button = gridRef.current.querySelector(
       `#button-${rowIndex}-${colIndex}`
-    );
+    ) as HTMLElement;
     if (!button) return { x: 0, y: 0, width: 0, height: 0 };
     const rect = button.getBoundingClientRect();
     const gridRect = gridRef.current.getBoundingClientRect();
@@ -351,6 +351,9 @@ export default function Grid() {
         );
 
         svg.appendChild(line);
+        
+        // Debugging: Log line coordinates
+        console.log(`Line drawn: (${x1 + width / 2}, ${y1 + height / 2}) to (${x2 + width / 2}, ${y2 + height / 2})`);
       });
     },
     [getButtonPosition]
@@ -364,7 +367,7 @@ export default function Grid() {
       }
     }
   }, []);
-  
+
   useEffect(() => {
     const handleResize = () => {
       clearSVG();
@@ -384,6 +387,7 @@ export default function Grid() {
     };
 
     window.addEventListener('resize', handleResize);
+    handleResize(); // Call initially to draw lines
     return () => window.removeEventListener('resize', handleResize);
   }, [clearSVG, drawLine, foundWords, selectedLetters]);
 
@@ -472,6 +476,7 @@ export default function Grid() {
           <svg
             ref={svgRef}
             className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            style={{ overflow: 'visible' }}
           />
           {grid.map((row, rowIndex) =>
             row.map((letter, colIndex) => (
