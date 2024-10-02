@@ -515,7 +515,7 @@ export default function Grid() {
           )}
         </div>
 
-        <div className="w-1/2 flex flex-col items-center justify-between mb-4">
+        <div className="w-full flex flex-col items-center justify-between mb-4">
           <div className="w-full mb-4">
             <h3 className="text-lg font-semibold mb-2 text-center">
               Hint Progress
