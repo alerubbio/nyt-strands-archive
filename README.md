@@ -1,50 +1,56 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+ # Wordle-Inspired Game
+This project is a word game inspired by the New York Times' Strands game, built with React, Vite, and shadcn ui components styled with Tailwind CSS. It features daily themes, hints, and a dynamic grid interface, offering a unique twist on the popular word puzzle format.
+ ## Features
+ - Daily changing themes and word sets
+ - Interactive grid for word selection
+ - Hint system with progress tracking
+ - Responsive design for various screen sizes
+ - Spangram detection and special highlighting
+ ## Tech Stack
+ -  Frontend: React with Vite
+ -  UI Components: shadcn ui
+ -  Styling: Tailwind CSS
+ -  Web Scraping: Selenium WebDriver
+ -  CI CD: GitHub Actions
+ -  Deployment: Cloudflare
+ ## Getting Started
+ ### Prerequisites
+ - Node.js (version 14 or later)
+ - npm or yarn
+ ### Installation
+ 1. Clone the repository:
+     git clone https:  github.com your-username wordle-inspired-game.git     
+ 2. Navigate to the project directory:
+     cd wordle-inspired-game     
+ 3. Install dependencies:
+     npm install     
+or
+     yarn install     
+ ### Running the Development Server
+Start the development server:
+  npm run dev  
+or
+  yarn dev  
+The application will be available at  http:  localhost:5173 (or another port if 5173 is in use).
+ ## Project Structure
+ -   src: Contains the main React application code
+ -   scripts: Houses scraping scripts and data processing utilities
+ -   public: Static assets
+ -   components: Reusable React components, including shadcn ui components
+ ## Deployment
+This project uses GitHub Actions for CI CD and deploys to Cloudflare. The workflow is defined in  .github workflows main.yml.
+To deploy:
+ 1. Push changes to the  main branch
+ 2. GitHub Actions will automatically build and deploy the project to Cloudflare
+ ## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+ ## License
+This project is licensed under the  MIT License.
+ ## Acknowledgements
+ -  New York Times Strands - Inspiration for this game
+ -  Vite
+ -  React
+ -  shadcn ui
+ -  Tailwind CSS
+ -  Selenium
+ -  Cloudflare
