@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 interface BoardData {
   date: string;
@@ -394,7 +395,6 @@ export default function Grid() {
   const handleUseHint = useCallback(() => {
     if (availableHintsRef.current > 0) {
       const hint = getRandomHint();
-      setCurrentHint(hint);
       setPreviousHints((prev) => [...prev, hint]);
       usedHintsRef.current += 1;
       availableHintsRef.current -= 1;
@@ -403,6 +403,49 @@ export default function Grid() {
       setShowHint(true);
     }
   }, [getRandomHint]);
+
+  const handleTouchStart = useCallback(
+    (rowIndex: number, colIndex: number) => {
+      setIsDragging(true);
+      setSelectedLetters([
+        { rowIndex, colIndex, letter: grid[rowIndex][colIndex] },
+      ]);
+    },
+    [grid]
+  );
+
+  const handleTouchMove = useCallback(
+    (event: React.TouchEvent) => {
+      if (isDragging && gridRef.current) {
+        const touch = event.touches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (element && element.id.startsWith('button-')) {
+          const [, rowIndex, colIndex] = element.id.split('-').map(Number);
+          handleDrag(rowIndex, colIndex);
+        }
+      }
+    },
+    [isDragging, handleDrag]
+  );
+
+  const handleTouchEnd = useCallback(() => {
+    if (isDragging) {
+      handleDragEnd();
+    }
+  }, [isDragging, handleDragEnd]);
+
+  useEffect(() => {
+    const handleGlobalTouchEnd = () => {
+      if (isDragging) {
+        handleDragEnd();
+      }
+    };
+
+    window.addEventListener('touchend', handleGlobalTouchEnd);
+    return () => {
+      window.removeEventListener('touchend', handleGlobalTouchEnd);
+    };
+  }, [isDragging, handleDragEnd]);
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -433,104 +476,89 @@ export default function Grid() {
         </div>
 
         <div
-          className="grid grid-cols-6 gap-2 mb-6 justify-center relative"
-          ref={gridRef}
-        >
-          <svg
-            ref={svgRef}
-            className="absolute top-0 left-0 w-full h-full pointer-events-none"
-          />
-          {grid.map((row, rowIndex) =>
-            row.map((letter, colIndex) => (
-              <div
-                key={`${rowIndex}-${colIndex}`}
-                className="flex items-center justify-center"
+        className="grid grid-cols-6 gap-2 mb-6 justify-center relative touch-none"
+        ref={gridRef}
+        onTouchMove={handleTouchMove}
+      >
+        <svg
+          ref={svgRef}
+          className="absolute top-0 left-0 w-full h-full pointer-events-none "
+        />
+        {grid.map((row, rowIndex) =>
+          row.map((letter, colIndex) => (
+            <div
+              key={`${rowIndex}-${colIndex}`}
+              className="flex items-center justify-center"
+            >
+              <Button
+                id={`button-${rowIndex}-${colIndex}`}
+                variant="ghost"
+                className={`w-12 h-12 rounded-full text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10
+                  transition-colors duration-100 ease-in-out
+                  ${(() => {
+                    const foundStatus = isLetterInFoundWord(
+                      rowIndex,
+                      colIndex
+                    );
+                    if (foundStatus === "spangram") return "gameRed";
+                    if (foundStatus === "answer") return "gameBlue";
+                    return isLetterSelected(rowIndex, colIndex)
+                      ? "gameGreen"
+                      : "bg-secondary";
+                  })()}`}
+                onMouseDown={() => handleDragStart(rowIndex, colIndex)}
+                onMouseEnter={() => handleDrag(rowIndex, colIndex)}
+                onTouchStart={() => handleTouchStart(rowIndex, colIndex)}
+                style={{ outline: "none" }}
+                aria-label={`${letter} at row ${rowIndex + 1}, column ${
+                  colIndex + 1
+                }`}
               >
-                <Button
-                  id={`button-${rowIndex}-${colIndex}`}
-                  variant="ghost"
-                  className={`w-12 h-12 rounded-full text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10
-                    transition-colors duration-100 ease-in-out
-                    ${(() => {
-                      const foundStatus = isLetterInFoundWord(
-                        rowIndex,
-                        colIndex
-                      );
-                      if (foundStatus === "spangram") return "gameRed";
-                      if (foundStatus === "answer") return "gameBlue";
-                      return isLetterSelected(rowIndex, colIndex)
-                        ? "gameGreen"
-                        : "bg-secondary";
-                    })()}`}
-                  onMouseDown={() => handleDragStart(rowIndex, colIndex)}
-                  onMouseEnter={() => handleDrag(rowIndex, colIndex)}
-                  style={{ outline: "none" }}
-                  aria-label={`${letter} at row ${rowIndex + 1}, column ${
-                    colIndex + 1
-                  }`}
-                >
-                  {letter}
-                </Button>
-              </div>
-            ))
-          )}
-        </div>
-
-        <div className="w-full flex items-center justify-between mb-4">
-          <div className="w-1/5 ml-10">
-            <h3 className="text-lg font-semibold mb-2 text-left">
-              Hint Progress
-            </h3>
-            <Progress value={(hintProgress / 3) * 100} className="w-full" />
-          </div>
-          <div className="flex flex-col items-center mr-24">
-            <Button
-              style={{ outline: "none" }}
-              className="prevent-select mb-2 hover:bg-parent hover:text-primary-background"
-              onClick={handleUseHint}
-              disabled={availableHints === 0 || hasWon}
-            >
-              Use Hint
-            </Button>
-            <small className="font-bold text-center">
-              {3 - usedHints} Hints Left!
-            </small>
-          </div>
-        </div>
-
-        {showHint && previousHints.length > 0 && (
-          <div className="w-1/2 mx-auto mt-6">
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="h-12">
-                {previousHints.length > 0 ? (
-                  previousHints.map((hint, index) => (
-                    <CarouselItem key={index} className="basis-full">
-                      <div className="h-full flex items-center justify-center bg-secondary rounded-md px-4">
-                        <p className="text-sm font-medium truncate">{hint}</p>
-                      </div>
-                    </CarouselItem>
-                  ))
-                ) : (
-                  <CarouselItem className="basis-full">
-                    <div className="h-full flex items-center justify-center bg-secondary rounded-md px-4">
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Find words to make Hints!
-                      </p>
-                    </div>
-                  </CarouselItem>
-                )}
-              </CarouselContent>
-              <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
-              <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
-            </Carousel>
-          </div>
+                {letter}
+              </Button>
+            </div>
+          ))
         )}
+      </div>
+
+      <div className="w-full flex items-center justify-between mb-4">
+        <div className="w-1/5 ml-10">
+          <h3 className="text-lg font-semibold mb-2 text-left">
+            Hint Progress
+          </h3>
+          <Progress value={(hintProgress / 3) * 100} className="w-full" />
+        </div>
+        <div className="flex flex-col items-center mr-12">
+          <Button
+            style={{ outline: "none" }}
+            className="prevent-select mb-2 hover:bg-parent hover:text-primary-background"
+            onClick={handleUseHint}
+            disabled={availableHints === 0 || hasWon}
+          >
+            Use Hint
+          </Button>
+          <small className="font-bold text-center">
+            {3-usedHints} Hints Left!
+          </small>
+        </div>
+      </div>
+
+        <div className="flex justify-around mt-6">
+          {[1, 2, 3].map((hintNumber) => (
+            <HoverCard key={hintNumber}>
+              <HoverCardTrigger className="mx-2"asChild>
+                <Button variant="outline">Hint {hintNumber}</Button>
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80">
+                {previousHints[hintNumber - 1] ? (
+                  <p>{previousHints[hintNumber - 1]}</p>
+                ) : (
+                  <p>Use the "Use Hint" button to reveal this hint.</p>
+                )}
+              </HoverCardContent>
+            </HoverCard>
+          ))}
+        </div>
       </div>
     </div>
   );
