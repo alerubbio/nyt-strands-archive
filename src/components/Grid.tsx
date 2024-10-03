@@ -487,16 +487,26 @@ export default function Grid() {
     };
   }, [isDragging, handleDragEnd]);
 
+  const currentDate = useMemo(() => {
+    const date = new Date();
+    return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }, []);
+
   return (
     <div className="container mx-1/ p-2 sm:p-4 max-w-4xl">
-      <Card className="mb-4 sm:mb-6 w-full mx-auto">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center">
-            Today's Theme
-          </CardTitle>
+      <Card className="mb-4 sm:mb-6 w-full mx-auto overflow-hidden">
+        <CardHeader className="pb-2 bg-gradient-to-r bg-[#2e346d] text-white">
+          <div className="relative">
+            <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-2">
+              Today's Theme
+            </CardTitle>
+            <p className="text-center text-sm sm:text-base  text-indigo-100 font-medium ">
+              {currentDate}
+            </p>
+          </div>
         </CardHeader>
-        <CardContent>
-          <p className="text-xl sm:text-2xl md:text-3xl text-center font-bold text-gameGreen">
+        <CardContent className="pt-6 pb-4 px-4 bg-gradient-to-b bg-indigo-10 white ">
+          <p className="text-xl sm:text-2xl md:text-3xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r text-gameGreen">
             {theme}
           </p>
         </CardContent>

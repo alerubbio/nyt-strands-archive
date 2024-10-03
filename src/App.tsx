@@ -4,7 +4,7 @@ import Grid from './components/Grid'
 function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br bg-indigo-100  dark:from-gray-900 dark:to-indigo-900 text-gray-800 dark:text-gray-200 flex flex-col">
-      <header className="py-8 px-4 bg-gradient-to-r from-[#4754d1] to-[#7aa2f7]">
+      <header className="py-8 px-4 bg-gradient-to-r from-[#2e346d] to-[#4754d1]">
         <div className="container mx-auto flex items-center">
           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4">
             <span className="text-2xl font-bold text-indigo-600">S</span>
@@ -20,9 +20,14 @@ function App() {
         </div>
       </main>
       <footer className="py-6 px-4 bg-indigo-100 dark:bg-gray-800 mt-auto">
-        <p className="text-center text-sm text-indigo-600 dark:text-indigo-300">
-          © 2024 Strands Clone. All rights reserved.
-        </p>
+        <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center">
+          <p className="text-center text-sm text-indigo-600 dark:text-indigo-300 mx--auto">
+            © 2024 Strands Game. All rights reserved.
+          </p>
+          <p className="text-center text-sm text-indigo-600 dark:text-indigo-300 mt-2 sm:mt-0 mx-0">
+            Created by <a href="https://www.hackfol.io/alejandro" target="_blank" rel="noopener noreferrer" className="underline hover:text-indigo-800 dark:hover:text-indigo-100 transition-colors">Alejandro</a>
+          </p>
+        </div>
       </footer>
     </div>
   )
