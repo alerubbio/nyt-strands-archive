@@ -60,7 +60,7 @@ export default function Grid() {
   const [availableHints, setAvailableHints] = useState<number>(0);
   const [usedHints, setUsedHints] = useState<number>(0);
   const [hasWon, setHasWon] = useState<boolean>(false);
-
+  const [allWordsFoundExceptSpangram, setAllWordsFoundExceptSpangram] = useState<boolean>(false);
   const hintProgressRef = useRef<number>(0);
   const availableHintsRef = useRef<number>(0);
   const usedHintsRef = useRef<number>(0);
@@ -81,10 +81,10 @@ export default function Grid() {
 
   const remainingAnswerWords = useMemo(() => {
     const foundAnswerWords = new Set(
-      foundWords.filter((fw) => fw.isAnswer).map((fw) => fw.word)
+      foundWords.filter((fw) => fw.isAnswer && !fw.isSpangram).map((fw) => fw.word)
     );
-    return validWords.filter((word) => !foundAnswerWords.has(word));
-  }, [validWords, foundWords]);
+    return validWords.filter((word) => word !== spangram && !foundAnswerWords.has(word));
+  }, [validWords, foundWords, spangram]);
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
@@ -164,6 +164,25 @@ export default function Grid() {
     [grid]
   );
 
+  const isSpangramFound = useMemo(() => 
+    foundWords.some(fw => fw.isSpangram),
+    [foundWords]
+  );
+
+  useEffect(() => {
+    if (remainingAnswerWords.length === 0 && !isSpangramFound) {
+      setAllWordsFoundExceptSpangram(true);
+    } else {
+      setAllWordsFoundExceptSpangram(false);
+    }
+
+    if (remainingAnswerWords.length === 0 && isSpangramFound) {
+      setHasWon(true);
+    } else {
+      setHasWon(false);
+    }
+  }, [remainingAnswerWords, isSpangramFound]);
+  
   const handleDrag = useCallback(
     (rowIndex: number, colIndex: number) => {
       if (isDragging) {
@@ -270,16 +289,16 @@ export default function Grid() {
         console.log("Cannot earn more hints. Limit reached.");
       }
       console.log(`Hint word found: ${word}`);
-    }
-    setSelectedLetters([]);
-  }, [
-    selectedLetters,
-    validWords,
-    hintWords,
-    foundWords,
-    spangram,
-    canEarnMoreHints,
-  ]);
+      }
+      setSelectedLetters([]);
+    }, [
+      selectedLetters,
+      validWords,
+      hintWords,
+      foundWords,
+      spangram,
+      canEarnMoreHints,
+    ]);
 
   const isLetterSelected = useCallback(
     (rowIndex: number, colIndex: number): boolean => {
@@ -309,16 +328,11 @@ export default function Grid() {
   );
 
   const getRandomHint = useCallback(() => {
-    if (remainingAnswerWords.length === 0) {
-      return spangram
-        ? "Only the Spangram remains!"
-        : "Congratulations! You've found all the words!";
+    if (allWordsFoundExceptSpangram) {
+      return "Only the Spangram remains! It uses all 7 letters.";
     }
-    if (
-      remainingAnswerWords.length === 1 &&
-      remainingAnswerWords[0] === spangram
-    ) {
-      return "Only the Spangram remains!";
+    if (hasWon) {
+      return "Congratulations! You've found all the words and the Spangram!";
     }
 
     const unusedWords = remainingAnswerWords.filter(
@@ -334,7 +348,7 @@ export default function Grid() {
     setUsedHintIndices((prev) => [...prev, originalIndex]);
 
     return `${definitions[randomWord]}`;
-  }, [remainingAnswerWords, spangram, definitions, usedHintIndices]);
+  }, [remainingAnswerWords, allWordsFoundExceptSpangram, hasWon, definitions, usedHintIndices]);
 
   useEffect(() => {
     const handleGlobalMouseUp = () => {
@@ -516,6 +530,8 @@ export default function Grid() {
         <div className="mb-2 sm:mb-4 h-8 sm:h-12 flex items-center justify-center text-xl sm:text-2xl md:text-3xl font-bold">
           {hasWon ? (
             <span className="text-gameRed">You win!</span>
+          ) : allWordsFoundExceptSpangram ? (
+            <span className="text-gameGreen">Find the Spangram!</span>
           ) : (
             <span className="text-gameBlue">
               {selectedLetters.map((letter) => letter.letter).join("")}
