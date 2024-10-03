@@ -1,7 +1,7 @@
 name: Daily Strands Board and Data Scrape
 on:
   schedule:
-    - cron: '* * * * *'  # Run at 00:00 CST daily
+    - cron: '*/5 * * * *'  # Run at 00:00 CST daily
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
