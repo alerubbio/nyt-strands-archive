@@ -22,18 +22,14 @@ jobs:
 
     - name: Set up Chrome
       uses: browser-actions/setup-chrome@latest
-    
-    - name: Run board scraping script
-      run: python ./scripts/scrape_board.py
-    
-    - name: Run words scraping script
-      run: python ./scripts/scrape_words.py
 
-    - name: Run hints scraping script
-      run: python ./scripts/scrape_hints.py
-      
-    - name: Run word defining script
-      run: python ./scripts/define.py
+    - name: Run scraping and defining scripts
+      working-directory: ./scripts
+      run: |
+        python scrape_board.py
+        python scrape_words.py
+        python scrape_hints.py
+        python define.py
     
     - name: Commit and push if changed
       run: |
