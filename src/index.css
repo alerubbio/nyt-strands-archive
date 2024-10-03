@@ -69,87 +69,6 @@
   }
 }
 
-@media screen and (max-width: 640px) {
-  .container {
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: env(safe-area-inset-bottom, 20px);
-  }
-}
-
-@media screen and (max-width: 640px) {
-  .flex {
-    gap: 8px;
-  }
-
-  .flex-col {
-    gap: 12px;
-  }
-
-  .grid {
-    gap: 4px;
-  }
-}
-
-@media screen and (max-width: 640px) {
-  button {
-    min-height: 36px;
-    min-width: 36px;
-    padding: 8px;
-  }
-}
-
-.game-grid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 4px;
-  width: 100%;
-  max-width: 360px;
-  margin: 0 auto;
-}
-
-@media screen and (min-width: 640px) {
-  .game-grid {
-    gap: 8px;
-    max-width: 480px;
-  }
-}
-
-.game-grid button {
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 0;
-}
-
-@media screen and (min-width: 640px) {
-  .game-grid button {
-    font-size: 24px;
-  }
-}
-
-
-.no-select {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.z-10 {
-  z-index: 10;
-}
-
-.z-20 {
-  z-index: 20;
-}
-
-
 body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -174,12 +93,6 @@ h2 {
 a {
   @apply font-medium text-primary hover:text-primary/80 transition-colors;
   text-decoration: none;
-}
-
-.prevent-select {
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .found-word-line {
@@ -207,7 +120,6 @@ a {
 
 .gameGray {
   background-color: var(--game_gray);
-  /* color: var(--game_white); */
 }
 
 .text-gameBlue {

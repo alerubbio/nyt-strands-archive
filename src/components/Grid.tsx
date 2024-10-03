@@ -291,11 +291,11 @@ export default function Grid() {
     };
   }, [isDragging, handleDragEnd]);
 
-  const getButtonPosition = (rowIndex: number, colIndex: number) => {
+  const getButtonPosition = useCallback((rowIndex: number, colIndex: number) => {
     if (!gridRef.current) return { x: 0, y: 0, width: 0, height: 0 };
     const button = gridRef.current.querySelector(
       `#button-${rowIndex}-${colIndex}`
-    );
+    ) as HTMLElement;
     if (!button) return { x: 0, y: 0, width: 0, height: 0 };
     const rect = button.getBoundingClientRect();
     const gridRect = gridRef.current.getBoundingClientRect();
@@ -305,7 +305,7 @@ export default function Grid() {
       width: rect.width,
       height: rect.height,
     };
-  };
+  }, []);
 
   const clearSVG = useCallback(() => {
     const svg = svgRef.current;
@@ -324,32 +324,28 @@ export default function Grid() {
       isSpangram: boolean = false
     ) => {
       const svg = svgRef.current;
-      if (!svg) return;
+      if (!svg || !gridRef.current) return;
+
+      const gridRect = gridRef.current.getBoundingClientRect();
+      svg.setAttribute('width', gridRect.width.toString());
+      svg.setAttribute('height', gridRect.height.toString());
 
       letters.forEach((letter, index) => {
         if (index === 0) return;
         const prev = letters[index - 1];
-        const {
-          x: x1,
-          y: y1,
-          width,
-          height,
-        } = getButtonPosition(prev.rowIndex, prev.colIndex);
-        const { x: x2, y: y2 } = getButtonPosition(
-          letter.rowIndex,
-          letter.colIndex
-        );
+        const { x: x1, y: y1, width: w1, height: h1 } = getButtonPosition(prev.rowIndex, prev.colIndex);
+        const { x: x2, y: y2, width: w2, height: h2 } = getButtonPosition(letter.rowIndex, letter.colIndex);
 
         const line = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "line"
         );
-        line.setAttribute("x1", String(x1 + width / 2));
-        line.setAttribute("y1", String(y1 + height / 2));
-        line.setAttribute("x2", String(x2 + width / 2));
-        line.setAttribute("y2", String(y2 + height / 2));
+        line.setAttribute("x1", String(x1 + w1 / 2));
+        line.setAttribute("y1", String(y1 + h1 / 2));
+        line.setAttribute("x2", String(x2 + w2 / 2));
+        line.setAttribute("y2", String(y2 + h2 / 2));
         line.setAttribute("stroke", color);
-        line.setAttribute("stroke-width", "10");
+        line.setAttribute("stroke-width", "8");
         line.setAttribute("stroke-linecap", "round");
         line.setAttribute("stroke-linejoin", "round");
         line.setAttribute(
@@ -437,7 +433,7 @@ export default function Grid() {
     <div className="container mx-auto p-2 sm:p-4 max-w-4xl">
       <Card className="mb-4 sm:mb-6 w-full mx-auto">
         <CardHeader className="pb-2">
-          <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary text-center">
+          <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center">
             Today's Theme
           </CardTitle>
         </CardHeader>
@@ -448,7 +444,7 @@ export default function Grid() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-col items-center no-select">
+      <div className="flex flex-col items-center select-none">
         <div className="mb-2 sm:mb-4 h-8 sm:h-12 flex items-center justify-center text-xl sm:text-2xl md:text-3xl font-bold">
           {hasWon ? (
             <span className="text-gameRed">You win!</span>
@@ -459,46 +455,41 @@ export default function Grid() {
           )}
         </div>
 
+        <div className="relative">
+        <svg
+          ref={svgRef}
+          className="absolute top-0 left-0 w-full h-full pointer-events-none z-10"
+        />
         <div
-          className="game-grid mb-4 sm:mb-6 touch-none z-10"
+          className="grid grid-cols-6 gap-1 sm:gap-2 mb-4 sm:mb-6 w-full max-w-[360px] sm:max-w-[480px] mx-auto touch-none"
           ref={gridRef}
           onTouchMove={handleTouchMove}
         >
-          <svg
-            ref={svgRef}
-            className="absolute top-0 left-0 w-full h-full pointer-events-none"
-          />
           {grid.map((row, rowIndex) =>
             row.map((letter, colIndex) => (
               <Button
                 key={`${rowIndex}-${colIndex}`}
                 id={`button-${rowIndex}-${colIndex}`}
                 variant="ghost"
-                className={`rounded-full flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background
-                  transition-colors duration-100 ease-in-out
+                className={`rounded-full flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background transition-colors duration-100 ease-in-out aspect-square text-sm sm:text-base md:text-lg font-bold p-0 z-20 relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12
+
                   ${(() => {
-                    const foundStatus = isLetterInFoundWord(
-                      rowIndex,
-                      colIndex
-                    );
+                    const foundStatus = isLetterInFoundWord(rowIndex, colIndex);
                     if (foundStatus === "spangram") return "gameRed";
                     if (foundStatus === "answer") return "gameBlue";
-                    return isLetterSelected(rowIndex, colIndex)
-                      ? "gameGreen"
-                      : "bg-secondary";
+                    return isLetterSelected(rowIndex, colIndex) ? "gameGreen" : "bg-secondary";
                   })()}`}
                 onMouseDown={() => handleDragStart(rowIndex, colIndex)}
                 onMouseEnter={() => handleDrag(rowIndex, colIndex)}
                 onTouchStart={() => handleTouchStart(rowIndex, colIndex)}
-                aria-label={`${letter} at row ${rowIndex + 1}, column ${
-                  colIndex + 1
-                }`}
+                aria-label={`${letter} at row ${rowIndex + 1}, column ${colIndex + 1}`}
               >
                 {letter}
               </Button>
             ))
           )}
         </div>
+      </div>
 
         <div className="w-full flex flex-col sm:flex-row items-center justify-between mb-4 space-y-4 sm:space-y-0 sm:space-x-4 z-20">
           <div className="w-full sm:w-1/3">
@@ -521,7 +512,7 @@ export default function Grid() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-around mt-4 sm:mt-6 space-y-2 sm:space-y-0 sm:space-x-4 w-full z-20">
+        <div className="flex flex-col sm:flex-row justify-center mt-4 sm:mt-6 space-y-2 sm:space-y-0 sm:space-x-4 w-full z-20">
           {[1, 2, 3].map((hintNumber) => (
             <HoverCard key={hintNumber}>
               <HoverCardTrigger className="w-full sm:w-auto" asChild>
@@ -539,5 +530,5 @@ export default function Grid() {
         </div>
       </div>
     </div>
-  );
+  ); 
 }
