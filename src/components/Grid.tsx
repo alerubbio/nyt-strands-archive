@@ -345,7 +345,7 @@ export default function Grid() {
         line.setAttribute("x2", String(x2 + w2 / 2));
         line.setAttribute("y2", String(y2 + h2 / 2));
         line.setAttribute("stroke", color);
-        line.setAttribute("stroke-width", "8");
+        line.setAttribute("stroke-width", "9");
         line.setAttribute("stroke-linecap", "round");
         line.setAttribute("stroke-linejoin", "round");
         line.setAttribute(
@@ -430,7 +430,7 @@ export default function Grid() {
   }, [isDragging, handleDragEnd]);
 
   return (
-    <div className="container mx-auto p-2 sm:p-4 max-w-4xl">
+    <div className="container mx-1/ p-2 sm:p-4 max-w-4xl">
       <Card className="mb-4 sm:mb-6 w-full mx-auto">
         <CardHeader className="pb-2">
           <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center">
@@ -491,7 +491,7 @@ export default function Grid() {
         </div>
       </div>
 
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between mb-4 space-y-4 sm:space-y-0 sm:space-x-4 z-20">
+        <div className="w-4/5 flex flex-col sm:flex-row items-center justify-between mb-4 space-y-4 sm:space-y-0 sm:space-x-4 z-20">
           <div className="w-full sm:w-1/3">
             <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2 text-center sm:text-left">
               Hint Progress
