@@ -1,7 +1,7 @@
 name: Daily Strands Board and Data Scrape
 on:
   schedule:
-    - cron: '0 6 * * *'  # Run at 00:00 CST daily
+    - cron: '1 * * *'  # Run at 00:00 CST daily
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        git add *.json
+        git add --all
         timestamp=$(date -u "+%Y-%m-%d %H:%M:%S UTC")
         git commit -m "Update Strands Game Data $timestamp" || exit 0
         git push
