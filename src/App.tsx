@@ -20,7 +20,7 @@ function App() {
         </div>
       </main>
       <footer className="py-6 px-4 bg-indigo-100 dark:bg-gray-800 mt-auto">
-        <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center">
+        <div className="container mx-auto flex flex-col-reverse sm:flex-row justify-center items-center">
           <p className="text-center text-sm text-indigo-600 dark:text-indigo-300 mx-auto">
             © 2024 Strands Game. All rights reserved.
           </p>
