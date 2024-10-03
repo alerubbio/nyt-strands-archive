@@ -291,11 +291,11 @@ export default function Grid() {
     };
   }, [isDragging, handleDragEnd]);
 
-  const getButtonPosition = (rowIndex: number, colIndex: number) => {
+  const getButtonPosition = useCallback((rowIndex: number, colIndex: number) => {
     if (!gridRef.current) return { x: 0, y: 0, width: 0, height: 0 };
     const button = gridRef.current.querySelector(
       `#button-${rowIndex}-${colIndex}`
-    );
+    ) as HTMLElement;
     if (!button) return { x: 0, y: 0, width: 0, height: 0 };
     const rect = button.getBoundingClientRect();
     const gridRect = gridRef.current.getBoundingClientRect();
@@ -305,15 +305,6 @@ export default function Grid() {
       width: rect.width,
       height: rect.height,
     };
-  };
-
-  const clearSVG = useCallback(() => {
-    const svg = svgRef.current;
-    if (svg) {
-      while (svg.firstChild) {
-        svg.removeChild(svg.firstChild);
-      }
-    }
   }, []);
 
   const drawLine = useCallback(
@@ -324,21 +315,19 @@ export default function Grid() {
       isSpangram: boolean = false
     ) => {
       const svg = svgRef.current;
-      if (!svg) return;
+      if (!svg || !gridRef.current) return;
+
+      // Update SVG viewBox to match grid dimensions
+      const gridRect = gridRef.current.getBoundingClientRect();
+      svg.setAttribute('viewBox', `0 0 ${gridRect.width} ${gridRect.height}`);
+      svg.style.width = `${gridRect.width}px`;
+      svg.style.height = `${gridRect.height}px`;
 
       letters.forEach((letter, index) => {
         if (index === 0) return;
         const prev = letters[index - 1];
-        const {
-          x: x1,
-          y: y1,
-          width,
-          height,
-        } = getButtonPosition(prev.rowIndex, prev.colIndex);
-        const { x: x2, y: y2 } = getButtonPosition(
-          letter.rowIndex,
-          letter.colIndex
-        );
+        const { x: x1, y: y1, width, height } = getButtonPosition(prev.rowIndex, prev.colIndex);
+        const { x: x2, y: y2 } = getButtonPosition(letter.rowIndex, letter.colIndex);
 
         const line = document.createElementNS(
           "http://www.w3.org/2000/svg",
@@ -349,7 +338,7 @@ export default function Grid() {
         line.setAttribute("x2", String(x2 + width / 2));
         line.setAttribute("y2", String(y2 + height / 2));
         line.setAttribute("stroke", color);
-        line.setAttribute("stroke-width", "10");
+        line.setAttribute("stroke-width", "5");
         line.setAttribute("stroke-linecap", "round");
         line.setAttribute("stroke-linejoin", "round");
         line.setAttribute(
@@ -362,27 +351,45 @@ export default function Grid() {
         );
 
         svg.appendChild(line);
+        
+        // Debugging: Log line coordinates
+        console.log(`Line drawn: (${x1 + width / 2}, ${y1 + height / 2}) to (${x2 + width / 2}, ${y2 + height / 2})`);
       });
     },
     [getButtonPosition]
   );
 
-  useEffect(() => {
-    clearSVG();
-    foundWords.forEach((fw) => {
-      if (fw.isAnswer) {
-        drawLine(
-          fw.letters,
-          fw.isSpangram ? "var(--game_red)" : "var(--game_blue)",
-          true,
-          fw.isSpangram
-        );
+  const clearSVG = useCallback(() => {
+    const svg = svgRef.current;
+    if (svg) {
+      while (svg.firstChild) {
+        svg.removeChild(svg.firstChild);
       }
-    });
-    if (selectedLetters.length >= 2) {
-      drawLine(selectedLetters, "var(--game_green)", false);
     }
-  }, [selectedLetters, foundWords, clearSVG, drawLine]);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      clearSVG();
+      foundWords.forEach((fw) => {
+        if (fw.isAnswer) {
+          drawLine(
+            fw.letters,
+            fw.isSpangram ? "var(--game_red)" : "var(--game_blue)",
+            true,
+            fw.isSpangram
+          );
+        }
+      });
+      if (selectedLetters.length >= 2) {
+        drawLine(selectedLetters, "var(--game_green)", false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Call initially to draw lines
+    return () => window.removeEventListener('resize', handleResize);
+  }, [clearSVG, drawLine, foundWords, selectedLetters]);
 
   const handleUseHint = useCallback(() => {
     if (availableHintsRef.current > 0) {
@@ -434,24 +441,24 @@ export default function Grid() {
   }, [isDragging, handleDragEnd]);
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl flex flex-col min-h-screen">
+    <div className="container mx-auto p-2 sm:p-4 max-w-4xl">
       <h1 className="text-2xl font-bold mb-4 text-center"></h1>
 
-      <Card className="mb-6 w-full mx-auto">
+      <Card className="mb-4 sm:mb-6 w-full mx-auto">
         <CardHeader className="pb-2">
-          <CardTitle className="text-3xl sm:text-5xl font-extrabold text-primary text-center">
+          <CardTitle className="text-2xl sm:text-5xl font-extrabold text-primary text-center">
             Today's Theme
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-2xl sm:text-3xl text-center font-bold text-gameGreen">
+          <p className="text-xl sm:text-3xl text-center font-bold text-gameGreen">
             {theme}
           </p>
         </CardContent>
       </Card>
 
-      <div className="flex flex-col items-center prevent-select flex-grow">
-        <div className="mb-4 h-12 flex items-center justify-center text-2xl sm:text-3xl font-bold">
+      <div className="flex flex-col items-center select-none">
+        <div className="mb-2 sm:mb-4 h-8 sm:h-12 flex items-center justify-center text-xl sm:text-3xl font-bold">
           {hasWon ? (
             <span className="text-gameRed">You win!</span>
           ) : (
@@ -462,13 +469,14 @@ export default function Grid() {
         </div>
 
         <div
-          className="grid grid-cols-6 gap-1 sm:gap-2 mb-6 justify-center relative touch-none w-full max-w-[360px] sm:max-w-[420px]"
+          className="grid grid-cols-6 gap-1 sm:gap-2 mb-4 sm:mb-8 justify-center relative touch-none select-none"
           ref={gridRef}
           onTouchMove={handleTouchMove}
         >
           <svg
             ref={svgRef}
             className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            style={{ overflow: 'visible' }}
           />
           {grid.map((row, rowIndex) =>
             row.map((letter, colIndex) => (
@@ -479,8 +487,8 @@ export default function Grid() {
                 <Button
                   id={`button-${rowIndex}-${colIndex}`}
                   variant="ghost"
-                  className={`w-12 h-full aspect-square rounded-full text-lg sm:text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10
-                    transition-colors duration-100 ease-in-out
+                  className={`w-8 h-8 sm:w-12 sm:h-12 rounded-full text-base sm:text-2xl p-0 flex items-center justify-center border-0 hover:bg-parent hover:text-primary-background z-10
+                    transition-colors duration-100 ease-in-out select-none
                     ${(() => {
                       const foundStatus = isLetterInFoundWord(
                         rowIndex,
@@ -495,7 +503,7 @@ export default function Grid() {
                   onMouseDown={() => handleDragStart(rowIndex, colIndex)}
                   onMouseEnter={() => handleDrag(rowIndex, colIndex)}
                   onTouchStart={() => handleTouchStart(rowIndex, colIndex)}
-                  style={{ outline: "none" }}
+                  style={{ outline: "none", WebkitTouchCallout: 'none', userSelect: 'none' }}
                   aria-label={`${letter} at row ${rowIndex + 1}, column ${
                     colIndex + 1
                   }`}
@@ -507,14 +515,14 @@ export default function Grid() {
           )}
         </div>
 
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between mb- mt-auto">
-          <div className="w-full sm:w-1/3 mb-4 sm:mb-0">
-            <h3 className="text-lg font-semibold mb-2 text-center sm:text-left">
+        <div className="w-full flex flex-col items-center justify-between mb-4">
+          <div className="w-full mb-4">
+            <h3 className="text-lg font-semibold mb-2 text-center">
               Hint Progress
             </h3>
             <Progress value={(hintProgress / 3) * 100} className="w-full" />
           </div>
-          <div className="flex flex-col items-center mb-4 sm:mb-0">
+          <div className="flex flex-col items-center mb-4">
             <Button
               style={{ outline: "none" }}
               className="prevent-select mb-2 hover:bg-parent hover:text-primary-background"
@@ -529,13 +537,13 @@ export default function Grid() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-around mt-6 w-full">
+        <div className="flex flex-col sm:flex-row justify-center mt-4 sm:mt-6 w-full">
           {[1, 2, 3].map((hintNumber) => (
             <HoverCard key={hintNumber}>
-              <HoverCardTrigger className="mx-2 mb-2 sm:mb-0" asChild>
+              <HoverCardTrigger className="mx-2 mb-2 sm:mb-0 w-full sm:w-auto" asChild>
                 <Button variant="outline" className="w-full sm:w-auto">Hint {hintNumber}</Button>
               </HoverCardTrigger>
-              <HoverCardContent className="w-80">
+              <HoverCardContent className="w-72 sm:w-80">
                 {previousHints[hintNumber - 1] ? (
                   <p>{previousHints[hintNumber - 1]}</p>
                 ) : (
