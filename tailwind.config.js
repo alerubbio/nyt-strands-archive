@@ -13,6 +13,16 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+			indigo: {
+				100: '#E0E7FF',
+				600: '#4F46E5',
+				800: '#3730A3',
+			  },
+			  purple: {
+				100: '#FAE8FF',
+				600: '#9333EA',
+				800: '#6B21A8',
+			  },
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
