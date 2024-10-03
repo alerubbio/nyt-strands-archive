@@ -1,13 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Strands Game Imitation</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NYT Strands Fan Game - Daily Word Puzzle Challenge</title>
+  <meta name="description" content="Play our NYT Strands-inspired word game featuring daily themes, interactive grid, and hint system. Challenge yourself with this unique word puzzle experience!" />
+  <meta name="keywords" content="word game, NYT Strands, daily puzzle, word challenge, interactive grid" />
+  <meta name="author" content="Your Name or Company Name" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://strandsgame.win/" />
+  <meta property="og:title" content="NYT Strands Fan Game - Daily Word Puzzle Challenge" />
+  <meta property="og:description" content="Challenge yourself with our NYT Strands-inspired word game. New themes daily!" />
+  <meta property="og:image" content="https://strandsgame.win/og-image.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://strandsgame.win/" />
+  <meta property="twitter:title" content="NYT Strands Fan Game - Daily Word Puzzle Challenge" />
+  <meta property="twitter:description" content="Challenge yourself with our NYT Strands-inspired word game. New themes daily!" />
+  <meta property="twitter:image" content="https://strandsgame.win/twitter-image.jpg" />
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="/fonts/your-main-font.woff2" as="font" type="font/woff2" crossorigin>
+  
+  <!-- Add your CSS file -->
+  <link rel="stylesheet" href="/index.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+
+  <!-- Add structured data for rich snippets -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "NYT Strands Fan Game",
+      "description": "A daily word puzzle game inspired by NYT Strands, featuring interactive grid and hint system.",
+      "url": "https://strandsgame.win",
+      "applicationCategory": "Game",
+      "genre": "Word Puzzle",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+  </script>
+</body>
 </html>
