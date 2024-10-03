@@ -39,11 +39,16 @@ interface FoundWord {
   isSpangram: boolean;
 }
 
+interface HintCardProps {
+  hintNumber: number;
+}
+
 // Import JSON data
 import boardData from "../../data/BOARD.json";
 import wordsData from "../../data/WORDS.json";
 import hintsData from "../../data/HINTS.json";
 import definitionsData from "../../data/DEFINE.json";
+import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
 
 export default function Grid() {
   const [, setShowHint] = useState<boolean>(false);
@@ -80,6 +85,51 @@ export default function Grid() {
     );
     return validWords.filter((word) => !foundAnswerWords.has(word));
   }, [validWords, foundWords]);
+
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // Assuming 640px as the breakpoint for mobile
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const HintCard: React.FC<HintCardProps> = ({ hintNumber }) => {
+    const content = (
+      <div className="w-64 sm:w-72 md:w-80 p-2">
+        {previousHints[hintNumber - 1] ? (
+          <p>{previousHints[hintNumber - 1]}</p>
+        ) : (
+          <p>Use the "Claim Hint" button to reveal this hint.</p>
+        )}
+      </div>
+    );
+
+    if (isMobile) {
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="w-full">Hint {hintNumber}</Button>
+          </PopoverTrigger>
+          <PopoverContent>{content}</PopoverContent>
+        </Popover>
+      );
+    }
+
+    return (
+      <HoverCard>
+        <HoverCardTrigger asChild>
+          <Button variant="outline" className="w-full sm:w-auto">Hint {hintNumber}</Button>
+        </HoverCardTrigger>
+        <HoverCardContent>{content}</HoverCardContent>
+      </HoverCard>
+    );
+  };
 
   const isAdjacent = (
     prev: SelectedLetter,
@@ -513,21 +563,10 @@ export default function Grid() {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center mt-4 sm:mt-6 space-y-2 sm:space-y-0 sm:space-x-4 w-full z-20">
-          {[1, 2, 3].map((hintNumber) => (
-            <HoverCard key={hintNumber}>
-              <HoverCardTrigger className="w-full sm:w-auto" asChild>
-                <Button variant="outline" className="w-full sm:w-auto">Hint {hintNumber}</Button>
-              </HoverCardTrigger>
-              <HoverCardContent className="w-72 sm:w-80">
-                {previousHints[hintNumber - 1] ? (
-                  <p>{previousHints[hintNumber - 1]}</p>
-                ) : (
-                  <p>Use the "Claim Hint" button to reveal this hint.</p>
-                )}
-              </HoverCardContent>
-            </HoverCard>
-          ))}
-        </div>
+        {[1, 2, 3].map((hintNumber) => (
+          <HintCard key={hintNumber} hintNumber={hintNumber} />
+        ))}
+      </div>
       </div>
     </div>
   ); 
