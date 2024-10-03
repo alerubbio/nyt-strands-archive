@@ -90,7 +90,7 @@ export default function Grid() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640); // Assuming 640px as the breakpoint for mobile
+      setIsMobile(window.innerWidth < 640);
     };
 
     checkMobile();
@@ -101,11 +101,15 @@ export default function Grid() {
 
   const HintCard: React.FC<HintCardProps> = ({ hintNumber }) => {
     const content = (
-      <div className="w-64 sm:w-72 md:w-80 p-2">
+      <div className="w-64 sm:w-72 md:w-80 p-4 bg-white dark:bg-gray-800 rounded-md shadow-md">
         {previousHints[hintNumber - 1] ? (
-          <p>{previousHints[hintNumber - 1]}</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300 break-words">
+            {previousHints[hintNumber - 1]}
+          </p>
         ) : (
-          <p>Use the "Claim Hint" button to reveal this hint.</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            Use the "Claim Hint" button to reveal this hint.
+          </p>
         )}
       </div>
     );
@@ -116,7 +120,9 @@ export default function Grid() {
           <PopoverTrigger asChild>
             <Button variant="outline" className="w-full">Hint {hintNumber}</Button>
           </PopoverTrigger>
-          <PopoverContent>{content}</PopoverContent>
+          <PopoverContent className="p-0 bg-transparent border-none shadow-none">
+            {content}
+          </PopoverContent>
         </Popover>
       );
     }
@@ -126,7 +132,9 @@ export default function Grid() {
         <HoverCardTrigger asChild>
           <Button variant="outline" className="w-full sm:w-auto">Hint {hintNumber}</Button>
         </HoverCardTrigger>
-        <HoverCardContent>{content}</HoverCardContent>
+        <HoverCardContent className="p-0 bg-transparent border-none shadow-none">
+          {content}
+        </HoverCardContent>
       </HoverCard>
     );
   };
