@@ -21,7 +21,7 @@ function App() {
       </main>
       <footer className="py-6 px-4 bg-indigo-100 dark:bg-gray-800 mt-auto">
         <div className="container mx-auto flex flex-col sm:flex-row justify-center items-center">
-          <p className="text-center text-sm text-indigo-600 dark:text-indigo-300 mx--auto">
+          <p className="text-center text-sm text-indigo-600 dark:text-indigo-300 mx-auto">
             © 2024 Strands Game. All rights reserved.
           </p>
           <p className="text-center text-sm text-indigo-600 dark:text-indigo-300 mt-2 sm:mt-0 mx-0">
