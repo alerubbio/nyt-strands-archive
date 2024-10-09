@@ -1,8 +1,9 @@
 {
-  "BACKUP": "A reserve or substitute.",
-  "ENCRYPTION": "The process of obscuring information to make it unreadable without special knowledge, key files, or passwords.",
-  "FIREWALL": "A fireproof barrier used to prevent the spread of fire between or through buildings, structures, electrical substation transformers, or within an aircraft or vehicle.",
-  "LOCK": "Something used for fastening, which can only be opened with a key or combination.",
-  "PASSWORD": "A word used to gain admittance or to gain access to information; watchword.",
-  "SAFE": "A box, usually made of metal, in which valuables can be locked for ____keeping."
+  "FOYER": "A lobby, corridor, or waiting room, used in a hotel, theater, etc.",
+  "HALL": "A corridor; a ____way.",
+  "KITCHEN": "A room or area for preparing food.",
+  "LIBRARY": "An institution which holds books and/or other forms of media for use by the public or qualified people often lending them out, as well as providing various other services for its users.",
+  "OFFICE": "A ceremonial duty or service, particularly:",
+  "PANTRY": "A small room, closet, or cabinet usually located in or near the kitchen, dedicated to shelf-stable food storage and/or storing kitchenware, like a larder, but smaller.",
+  "STUDY": "(usually academic) To review materials already learned in order to make sure one does not forget them, usually in preparation for an examination."
 }
