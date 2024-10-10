@@ -1,9 +1,8 @@
 {
-  "FOYER": "A lobby, corridor, or waiting room, used in a hotel, theater, etc.",
-  "HALL": "A corridor; a ____way.",
-  "KITCHEN": "A room or area for preparing food.",
-  "LIBRARY": "An institution which holds books and/or other forms of media for use by the public or qualified people often lending them out, as well as providing various other services for its users.",
-  "OFFICE": "A ceremonial duty or service, particularly:",
-  "PANTRY": "A small room, closet, or cabinet usually located in or near the kitchen, dedicated to shelf-stable food storage and/or storing kitchenware, like a larder, but smaller.",
-  "STUDY": "(usually academic) To review materials already learned in order to make sure one does not forget them, usually in preparation for an examination."
+  "CROSSWORD": "(games, puzzles) A word puzzle in which interlocking words are entered usually horizontally and vertically into a grid based on clues given for each word.",
+  "CRYPTOGRAM": "Encrypted text.",
+  "JIGSAW": "A saw with fine teeth and a narrow blade which can cut curves in wood or metal.",
+  "JUMBLE": "A mixture of unrelated things.",
+  "MAZE": "A labyrinth; a puzzle consisting of a complicated network of paths or passages, the aim of which is to find one's way.",
+  "SUDOKU": "(games, puzzles) A type of puzzle whose completion requires each of typically nine rows and columns and each of as many usually square subregions to contain, without duplication, the digits from 1 to 9 (or the grid dimension)."
 }
