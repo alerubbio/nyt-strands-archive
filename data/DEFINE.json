@@ -1,8 +1,7 @@
 {
-  "CROSSWORD": "(games, puzzles) A word puzzle in which interlocking words are entered usually horizontally and vertically into a grid based on clues given for each word.",
-  "CRYPTOGRAM": "Encrypted text.",
-  "JIGSAW": "A saw with fine teeth and a narrow blade which can cut curves in wood or metal.",
-  "JUMBLE": "A mixture of unrelated things.",
-  "MAZE": "A labyrinth; a puzzle consisting of a complicated network of paths or passages, the aim of which is to find one's way.",
-  "SUDOKU": "(games, puzzles) A type of puzzle whose completion requires each of typically nine rows and columns and each of as many usually square subregions to contain, without duplication, the digits from 1 to 9 (or the grid dimension)."
+  "BEAKER": "A flat-bottomed vessel, with a lip, used as a laboratory container.",
+  "FLASK": "A narrow-necked vessel of metal or glass, used for various purposes; as of sheet metal, to carry gunpowder in; or of wrought iron, to contain quicksilver; or of glass, to heat water in, etc.",
+  "GOGGLES": "Protective eyewear set in a flexible frame to fit snugly against the face.",
+  "PIPETTE": "A small tube, often with an enlargement or bulb in the middle, and usually graduated, used for transferring or delivering measured quantities of a liquid.",
+  "THERMOMETER": "An apparatus used to measure temperature."
 }
