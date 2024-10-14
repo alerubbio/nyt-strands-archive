@@ -1,8 +1,10 @@
 {
-  "CARDIGAN": "A type of sweater or jumper that fastens up the front with buttons or a zipper, usually machine- or hand-knitted from wool.",
-  "FLANNEL": "A soft cloth material woven from wool, possibly combined with cotton or synthetic fibers.",
-  "FLEECE": "Hair or wool of a sheep or similar animal",
-  "SCARF": "A long, often knitted, garment worn around the neck.",
-  "SWEATER": "A knitted jacket or jersey, usually of thick wool, worn by athletes before or after exercise.",
-  "VEST": "A loose robe or outer garment worn historically by men in Arab or Middle Eastern countries."
+  "BOXES": "Senses relating to a three-dimensional object or space.",
+  "BUNGEE": "An elastic fabric-bound strap with a hook at each end, used for securing luggage.",
+  "CRATE": "A large open box or basket, used especially to transport fragile goods.",
+  "DOLLY": "A doll.",
+  "FOAM": "A substance composed of a large collection of bubbles or their solidified remains.",
+  "STRAP": "A long, narrow, pliable strip of leather, cloth, or the like.",
+  "TAPE": "Flexible material in a roll with a sticky surface on one or both sides; adhesive ____.",
+  "TRUCK": "A small wheel or roller, specifically the wheel of a gun carriage."
 }
