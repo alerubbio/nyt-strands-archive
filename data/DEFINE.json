@@ -1,10 +1,9 @@
 {
-  "BOXES": "Senses relating to a three-dimensional object or space.",
-  "BUNGEE": "An elastic fabric-bound strap with a hook at each end, used for securing luggage.",
-  "CRATE": "A large open box or basket, used especially to transport fragile goods.",
-  "DOLLY": "A doll.",
-  "FOAM": "A substance composed of a large collection of bubbles or their solidified remains.",
-  "STRAP": "A long, narrow, pliable strip of leather, cloth, or the like.",
-  "TAPE": "Flexible material in a roll with a sticky surface on one or both sides; adhesive ____.",
-  "TRUCK": "A small wheel or roller, specifically the wheel of a gun carriage."
+  "FEATHER": "A branching, hair-like structure that grows on the bodies of birds, used for flight, swimming, protection and display.",
+  "HAIR": "A pigmented filament of keratin which grows from a follicle on the skin of humans and other mammals.",
+  "HORN": "A hard growth of keratin that protrudes from the top of the head of certain animals, usually paired.",
+  "SCALE": "A ladder; a series of steps; a means of ascending.",
+  "SHELL": "A hard external covering of an animal.",
+  "TAIL": "The caudal appendage of an animal that is attached to its posterior and near the anus.",
+  "WING": "An appendage of an animal's (bird, bat, insect) body that enables it to fly; a similar fin at the side of a ray or similar fish"
 }
