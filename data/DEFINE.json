@@ -1,8 +1,10 @@
 {
-  "ANISE": "An umbelliferous plant (Pimpinella anisum) growing naturally in Egypt, and cultivated in Spain, Malta, etc., for its carminative and aromatic seeds, which are used as a spice. It has a licorice scent.",
-  "CARDAMOM": "The Elettaria ________um, an Indian herb.",
-  "CINNAMON": "A small evergreen tree native to Sri Lanka and southern India, Cinnamomum verum or Cinnamomum zeylanicum, belonging to the family Lauraceae.",
-  "CLOVE": "A very pungent aromatic spice, the unexpanded flower bud of the _____ tree.",
-  "NUTMEG": "An evergreen tree (Myristica fragrans) cultivated in the East Indies for its spicy seeds.",
-  "PEPPER": "A plant of the family Piperaceae."
+  "BARK": "The short, loud, explosive sound uttered by a dog, a fox, and some other animals.",
+  "CHIRP": "A short, sharp or high note or noise, as of a bird or insect.",
+  "GROWL": "A deep, rumbling, threatening sound made in the throat by an animal.",
+  "GRUNT": "A short snorting sound, often to show disapproval, or used as a reply when one is reluctant to speak.",
+  "MEOW": "The cry of a cat.",
+  "PURR": "The vibrating sound made by a cat in its throat when contented.",
+  "SQUAWK": "A shrill noise, especially made by a voice or bird; a yell, scream, or call.",
+  "SQUEAK": "A short, high-pitched sound, as of two objects rubbing together, or the calls of small animals."
 }
