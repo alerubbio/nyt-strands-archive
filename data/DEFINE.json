@@ -1,10 +1,8 @@
 {
-  "BARK": "The short, loud, explosive sound uttered by a dog, a fox, and some other animals.",
-  "CHIRP": "A short, sharp or high note or noise, as of a bird or insect.",
-  "GROWL": "A deep, rumbling, threatening sound made in the throat by an animal.",
-  "GRUNT": "A short snorting sound, often to show disapproval, or used as a reply when one is reluctant to speak.",
-  "MEOW": "The cry of a cat.",
-  "PURR": "The vibrating sound made by a cat in its throat when contented.",
-  "SQUAWK": "A shrill noise, especially made by a voice or bird; a yell, scream, or call.",
-  "SQUEAK": "A short, high-pitched sound, as of two objects rubbing together, or the calls of small animals."
+  "ARIA": "A musical piece written typically for a solo voice with orchestral accompaniment in an opera or cantata.",
+  "BALLAD": "A kind of narrative poem, adapted for recitation or singing; especially, a sentimental or romantic poem in short stanzas.",
+  "JINGLE": "The sound of metal or glass clattering against itself.",
+  "LULLABY": "A cradlesong, a soothing song to calm children or lull them to sleep.",
+  "SHANTY": "A roughly-built hut or cabin.",
+  "SPIRITUAL": "A Christian religious song, especially one in an African-American style, or a similar non-religious song."
 }
