@@ -1,9 +1,8 @@
 {
-  "APPLES": "A common, round fruit produced by the tree Malus domestica, cultivated in temperate climates.",
-  "BEES": "A flying insect, of the clade Anthophila within the hymenopteran superfamily Apoidea, known for its organised societies (though only a minority have them), for collecting pollen and (in some species) producing wax and honey.",
-  "CIDER": "An alcoholic, often sparkling (carbonated) beverage made from fermented apples; hard _____; apple _____",
-  "DONUTS": "A deep-fried piece of dough or batter, commonly made in a toroidal or ellipsoidal shape, and mixed with various sweeteners and flavors, sometimes filled with jelly, custard or cream.",
-  "HAYRIDE": "A recreational ride in a vehicle full of hay.",
-  "MAZE": "A labyrinth; a puzzle consisting of a complicated network of paths or passages, the aim of which is to find one's way.",
-  "SCARECROW": "An effigy, typically made of straw and dressed in old clothes, fixed to a pole in a field to deter birds from eating seeds or crops planted there."
+  "BUDDY": "A friend or casual acquaintance.",
+  "COMRADE": "A mate, companion, or associate.",
+  "CONSORT": "The spouse of a monarch.",
+  "FRIEND": "A person other than a family member, spouse or lover whose company one enjoys and towards whom one feels affection.",
+  "PARTNER": "Someone who is associated with another in a common activity or interest.",
+  "SIDEKICK": "An assistant to another person, especially to a superior or more important person."
 }
