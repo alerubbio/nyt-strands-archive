@@ -1,7 +1,9 @@
 {
-  "CHOCOLATE": "A food made from ground roasted cocoa beans.",
-  "GUMDROP": "A small chewy candy made with corn syrup, gelatin and some flavouring oils or powders.",
-  "LICORICE": "The plant Glycyrrhiza glabra, or sometimes in North America the related American Licorice plant Glycyrrhiza lepidota.",
-  "LOLLIPOP": "An item of confectionery consisting of a piece of candy/sweet attached to a stick.",
-  "TOFFEE": "A type of confectionery made by boiling sugar (or treacle, etc) with butter or milk, then cooling the mixture so that it becomes hard"
+  "CLOWN": "A slapstick performance artist often associated with a circus and usually characterized by bright, oversized clothing, a red nose, face paint, and a brightly colored wig.",
+  "GHOST": "The spirit; the soul of man.",
+  "MUMMY": "An embalmed human or animal corpse wrapped in linen bandages for burial, especially as practised by the ancient Egyptians and some Native American tribes.",
+  "PIRATE": "A criminal who plunders at sea; commonly attacking merchant vessels, though often pillaging port towns.",
+  "PRINCESS": "A female member of a royal family other than a queen, especially a daughter or granddaughter.",
+  "PUMPKIN": "A domesticated plant, in species Cucurbita pepo, similar in growth pattern, foliage, flower, and fruit to the squash or melon.",
+  "WITCH": "A person who practices _____craft; a woman or man who practices _____craft."
 }
