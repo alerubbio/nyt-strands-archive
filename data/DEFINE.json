@@ -1,9 +1,10 @@
 {
-  "CLOWN": "A slapstick performance artist often associated with a circus and usually characterized by bright, oversized clothing, a red nose, face paint, and a brightly colored wig.",
-  "GHOST": "The spirit; the soul of man.",
-  "MUMMY": "An embalmed human or animal corpse wrapped in linen bandages for burial, especially as practised by the ancient Egyptians and some Native American tribes.",
-  "PIRATE": "A criminal who plunders at sea; commonly attacking merchant vessels, though often pillaging port towns.",
-  "PRINCESS": "A female member of a royal family other than a queen, especially a daughter or granddaughter.",
-  "PUMPKIN": "A domesticated plant, in species Cucurbita pepo, similar in growth pattern, foliage, flower, and fruit to the squash or melon.",
-  "WITCH": "A person who practices _____craft; a woman or man who practices _____craft."
+  "BISHOP": "An overseer of congregations: either any such overseer, generally speaking, or (in Eastern Orthodoxy, Catholicism, Anglicanism, etc.) an official in the church hierarchy (actively or nominally) governing a diocese, supervising the church's priests, deacons, and property in its territory.",
+  "BOARD": "A relatively long, wide and thin piece of any material, usually wood or similar, often for use in construction or furniture-making.",
+  "KING": "A male monarch; a man who heads a monarchy. If it's an absolute monarchy, then he is the supreme ruler of his nation.",
+  "KNIGHT": "A young servant or follower; a trained military attendant in service of a lord.",
+  "PAWN": "The most common chess piece, or a similar piece in a similar game. In chess each side has eight; moves are only forward, and attacks are only forward diagonally or en passant.",
+  "QUEEN": "A female monarch. Example: Queen Victoria.",
+  "ROOK": "A European bird, Corvus frugilegus, of the crow family.",
+  "TIMER": "Someone or something which times."
 }
