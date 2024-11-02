@@ -1,10 +1,7 @@
 {
-  "BISHOP": "An overseer of congregations: either any such overseer, generally speaking, or (in Eastern Orthodoxy, Catholicism, Anglicanism, etc.) an official in the church hierarchy (actively or nominally) governing a diocese, supervising the church's priests, deacons, and property in its territory.",
-  "BOARD": "A relatively long, wide and thin piece of any material, usually wood or similar, often for use in construction or furniture-making.",
-  "KING": "A male monarch; a man who heads a monarchy. If it's an absolute monarchy, then he is the supreme ruler of his nation.",
-  "KNIGHT": "A young servant or follower; a trained military attendant in service of a lord.",
-  "PAWN": "The most common chess piece, or a similar piece in a similar game. In chess each side has eight; moves are only forward, and attacks are only forward diagonally or en passant.",
-  "QUEEN": "A female monarch. Example: Queen Victoria.",
-  "ROOK": "A European bird, Corvus frugilegus, of the crow family.",
-  "TIMER": "Someone or something which times."
+  "PENCILS": "A paintbrush.",
+  "PRINTER": "One who makes prints.",
+  "RULER": "A (usually rigid), flat, rectangular measuring or drawing device with graduations in units of measurement; a straightedge with markings.",
+  "SCISSORS": "One blade on a pair of ________.",
+  "STAPLER": "A device which binds together sheets of paper by driving a thin metal staple through the sheets and simultaneously folding over the ends of the staple against the back surface of the paper."
 }
