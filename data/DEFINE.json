@@ -1,7 +1,9 @@
 {
-  "PENCILS": "A paintbrush.",
-  "PRINTER": "One who makes prints.",
-  "RULER": "A (usually rigid), flat, rectangular measuring or drawing device with graduations in units of measurement; a straightedge with markings.",
-  "SCISSORS": "One blade on a pair of ________.",
-  "STAPLER": "A device which binds together sheets of paper by driving a thin metal staple through the sheets and simultaneously folding over the ends of the staple against the back surface of the paper."
+  "CLASS": "A group, collection, category or set sharing characteristics or attributes.",
+  "DOMAIN": "A geographic area owned or controlled by a single person or organization.",
+  "FAMILY": "A group of people who are closely related to one another (by blood, marriage or adoption); kin; for example, a set of parents and their children; an immediate ______.",
+  "GENUS": "A rank in the classification of organisms, below family and above species; a taxon at that rank.",
+  "ORDER": "Arrangement, disposition, or sequence.",
+  "PHYLUM": "A rank in the classification of organisms, below kingdom and above class; also called a division, especially in describing plants; a taxon at that rank",
+  "SPECIES": "Type or kind. (Compare race.)"
 }
