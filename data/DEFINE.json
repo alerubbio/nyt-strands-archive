@@ -1,8 +1,9 @@
 {
-  "BAND": "A strip of material used for strengthening or coupling.",
-  "CHOIR": "Singing group; group of people who sing together; company of people who are trained to sing together.",
-  "DEBATE": "An argument, or discussion, usually in an ordered or formal setting, often with more than two people, generally ending with a vote or other decision.",
-  "DRAMA": "A composition, normally in prose, telling a story and intended to be represented by actors impersonating the characters and speaking the dialogue",
-  "ORCHESTRA": "A large group of musicians who play together on various instruments, usually including some from strings, woodwind, brass and/or percussion; the instruments played by such a group.",
-  "YEARBOOK": "A reference book, published annually."
+  "BANJO": "A stringed musical instrument (chordophone), usually with a round body, a membrane-like soundboard and a fretted neck, played by plucking or strumming the strings.",
+  "GUITAR": "A stringed musical instrument, of European origin, usually with a fretted fingerboard and six strings, played with the fingers or a plectrum (______ pick).",
+  "HARP": "A musical instrument consisting of a body and a curved neck, strung with strings of varying length that are stroked or plucked with the fingers and are vertical to the soundboard when viewed from the end of the body",
+  "MANDOLIN": "A stringed instrument and a member of the lute family, having eight strings in four courses, frequently tuned as a violin, and with either a bowl-shaped back or a flat back",
+  "SITAR": "A Hindustani/Indian classical stringed instrument, typically having a gourd as its resonating chamber.",
+  "UKULELE": "A small four-stringed guitar.",
+  "VIOLIN": "A musical four-string instrument, generally played with a bow or by plucking the string, with the pitch set by pressing the strings at the appropriate place with the fingers; also any instrument of the ______ family."
 }
