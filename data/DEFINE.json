@@ -1,8 +1,7 @@
 {
-  "BIRTHDAY": "The anniversary of the day on which someone is born.",
-  "BUSINESS": "A specific commercial enterprise or establishment.",
-  "CIVIL": "Having to do with people and government office as opposed to the military or religion.",
-  "JUMP": "The act of ____ing; a leap; a spring; a bound.",
-  "LEISURE": "Freedom provided by the cessation of activities.",
-  "STRONG": "Capable of producing great physical force."
+  "DENTIST": "A medical doctor who specializes in _______ry.",
+  "DOCTOR": "A physician; a member of the medical profession; one who is trained and licensed to heal the sick or injured. The final examination and qualification may award a ______ degree in which case the post-nominal letters are D.O., DPM, M.D., DMD, DDS, in the US or MBBS in the UK.",
+  "NURSE": "A wet _____.",
+  "PHARMACIST": "A professional who dispenses prescription drugs in a hospital or retail pharmacy.",
+  "SURGEON": "One who performs surgery; a doctor who performs operations on people or animals."
 }
