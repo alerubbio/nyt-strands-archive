@@ -1,7 +1,9 @@
 {
-  "DENTIST": "A medical doctor who specializes in _______ry.",
-  "DOCTOR": "A physician; a member of the medical profession; one who is trained and licensed to heal the sick or injured. The final examination and qualification may award a ______ degree in which case the post-nominal letters are D.O., DPM, M.D., DMD, DDS, in the US or MBBS in the UK.",
-  "NURSE": "A wet _____.",
-  "PHARMACIST": "A professional who dispenses prescription drugs in a hospital or retail pharmacy.",
-  "SURGEON": "One who performs surgery; a doctor who performs operations on people or animals."
+  "BRAVO": "A hired soldier; an assassin; a desperado.",
+  "DELTA": "The fourth letter of the modern Greek alphabet \u0394, \u03b4.",
+  "ECHO": "A reflected sound that is heard again by its initial observer.",
+  "FOXTROT": "A ballroom dance with a slow-slow-quick-quick rhythm.",
+  "GOLF": "A ball game played by individuals competing against one another in which the object is to hit a ball into each of a series of (usually 18 or nine) holes in the minimum number of strokes.",
+  "TANGO": "A Standard ballroom dance in 4/4 time; or a social dance, the Argentine _____.",
+  "VICTOR": "The winner in a fight or contest."
 }
