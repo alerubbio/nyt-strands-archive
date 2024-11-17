@@ -1,8 +1,9 @@
 {
-  "AMUSING": "To entertain or occupy in a pleasant manner; to stir with pleasing emotions.",
-  "COMIC": "A comedian.",
-  "DROLL": "A funny person; a buffoon, a wag.",
-  "LAUGHABLE": "Fitted to excite laughter; humorous.",
-  "RIOTOUS": "Having the characteristics of a riot",
-  "WITTY": "Wise, having good judgement."
+  "ARCH": "An inverted U shape.",
+  "BRIDGE": "A construction or natural feature that spans a divide.",
+  "CASTLE": "A large building that is fortified and contains many defences; in previous ages often inhabited by a nobleman or king.",
+  "FORT": "A ____ified defensive structure stationed with troops.",
+  "MONUMENT": "A structure built for commemorative or symbolic reasons, or as a memorial; a commemoration.",
+  "PALACE": "Official residence of a head of state or other dignitary, especially in a monarchical or imperial governmental system.",
+  "TOWER": "A very tall iron-framed structure, usually painted red and white, on which microwave, radio, satellite, or other communication antennas are installed; mast."
 }
