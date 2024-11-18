@@ -1,9 +1,8 @@
 {
-  "ARCH": "An inverted U shape.",
-  "BRIDGE": "A construction or natural feature that spans a divide.",
-  "CASTLE": "A large building that is fortified and contains many defences; in previous ages often inhabited by a nobleman or king.",
-  "FORT": "A ____ified defensive structure stationed with troops.",
-  "MONUMENT": "A structure built for commemorative or symbolic reasons, or as a memorial; a commemoration.",
-  "PALACE": "Official residence of a head of state or other dignitary, especially in a monarchical or imperial governmental system.",
-  "TOWER": "A very tall iron-framed structure, usually painted red and white, on which microwave, radio, satellite, or other communication antennas are installed; mast."
+  "DOLPHIN": "A carnivorous aquatic mammal in one of several families of order Cetacea, famed for its intelligence and occasional willingness to approach humans.",
+  "MANATEE": "Any of several plant-eating marine mammals, of family Trichechidae, found in tropical regions.",
+  "NARWHAL": "Monodon monoceros, an Arctic cetacean that grows to about 20 feet (6 meters) long, the male having a single horn-like tusk, a twisted, pointed canine tooth that projects forward.",
+  "ORCA": "A sea mammal (Orcinus ____) related to dolphins and porpoises, commonly called the killer whale.",
+  "SEAL": "A pinniped (Pinnipedia), particularly an earless ____ (true ____) or eared ____.",
+  "WALRUS": "A large Arctic marine mammal related to seals and having long tusks, tough, wrinkled skin, and four flippers, Odobenus rosmarus."
 }
