@@ -1,8 +1,9 @@
 {
-  "BARRELHEAD": "The flat top of a barrel that has been stood vertically.",
-  "HIRES": "Payment for the temporary use of something.",
-  "MOXIE": "Nerve, spunk, strength of character.",
-  "SPRITE": "Spirit; mind; soul; state of mind; mood.",
-  "SQUIRT": "An instrument from which a liquid is forcefully ejected in a small, quick stream.",
-  "STARRY": "Having stars visible."
+  "BROOM": "A domestic utensil with fibers bound together at the end of a long handle, used for sweeping.",
+  "CHIMNEY": "A vertical tube or hollow column used to emit environmentally polluting gaseous and solid matter (including but not limited to by-products of burning carbon or hydrocarbon based fuels); a flue.",
+  "FLUE": "A pipe or duct that carries gaseous combustion products away from the point of combustion (such as a furnace).",
+  "HEARTH": "A brick, stone or cement floor to a fireplace or oven.",
+  "MANTEL": "The shelf above a fireplace which may be also a structural support for the masonry of the chimney.",
+  "POKER": "A metal rod, generally of wrought iron, for adjusting the burning logs or coals in a fire; a firestick.",
+  "SCREEN": "A physical divider intended to block an area from view, or provide shelter from something dangerous."
 }
