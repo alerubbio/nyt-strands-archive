@@ -1,8 +1,9 @@
 {
-  "BEND": "A curve.",
-  "BOULDER": "A large mass of stone detached from the surrounding land.",
-  "BUFFALO": "Any of the Old World mammals of the family Bovidae, such as the Cape _______, Syncerus caffer, or the water _______ Bubalus bubalis.",
-  "MOBILE": "A kinetic sculpture or decorative arrangement made of items hanging so that they can move independently from each other.",
-  "PHOENIX": "A mythological bird, said to be the only one of its kind, which lives for 500 years and then dies by burning to ashes on a pyre of its own making, ignited by the sun. It then arises anew from the ashes.",
-  "RIVERSIDE": "A bank or side of a river."
+  "BANG": "A sudden percussive noise.",
+  "CRASH": "A sudden, intense, loud sound, as made for example by cymbals.",
+  "CRUNCH": "A noisy crackling sound; the sound usually associated with ______ing.",
+  "HONK": "The sound produced by a typical car horn.",
+  "JINGLE": "The sound of metal or glass clattering against itself.",
+  "KAPOW": "A 5-letter word related to channel surfing.",
+  "SIZZLE": "The sound of water hitting a hot surface"
 }
