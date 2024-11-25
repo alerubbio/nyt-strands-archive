@@ -1,10 +1,9 @@
 {
-  "DEVIL": "An evil creature.",
-  "DIPPER": "One who, or that which, dips (immerses something, or itself, into a liquid).",
-  "FOOT": "A biological structure found in many animals that is used for locomotion and that is frequently a separate organ at the terminal part of the leg.",
-  "LEAGUE": "A group or association of cooperating members.",
-  "RASCALS": "A 7-letter word related to channel surfing.",
-  "ROCK": "A formation of minerals, specifically:",
-  "SPOON": "An implement for eating or serving; a scooped utensil whose long handle is straight, in contrast to a ladle.",
-  "WOMEN": "An adult female human."
+  "APPOINTMENT": "The act of appointing a person to hold an office or to have a position of trust",
+  "DATE": "The fruit of the ____ palm, Phoenix dactylifera, somewhat in the shape of an olive, containing a soft, sweet pulp and enclosing a hard kernel.",
+  "EVENT": "An occurrence; something that happens.",
+  "HOLIDAY": "A day on which a festival, religious event, or national celebration is traditionally observed.",
+  "MONTH": "A period into which a year is divided, historically based on the phases of the moon.",
+  "WEEK": "Any period of seven consecutive days.",
+  "YEAR": "A solar ____, the time it takes the Earth to complete one revolution of the Sun (between 365.24 and 365.26 days depending on the point of reference)."
 }
