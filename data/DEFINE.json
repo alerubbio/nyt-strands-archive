@@ -1,8 +1,9 @@
 {
-  "BAKED": "(with person as subject) To cook (something) in an oven.",
-  "FONDANT": "(usually uncountable) A flavored, creamy sugar preparation, used for icing cakes or as a base for candies.",
-  "FRIED": "Cooked by frying.",
-  "MASHED": "To convert into a mash; to reduce to a soft pulpy state by beating or pressure",
-  "ROASTED": "To cook food by heating in an oven or over a fire without covering, resulting in a crisp, possibly even slightly charred appearance.",
-  "SCALLOPED": "To create or form an edge in the shape of a crescent or multiple crescents."
+  "ANALOG": "Something that bears an ______y to something else",
+  "BEZEL": "The sloping edge or face on a cutting tool.",
+  "CROWN": "A royal, imperial or princely headdress; a diadem.",
+  "DIGITAL": "A _______ option.",
+  "FACE": "The front part of the head of a human or other animal, featuring the eyes, nose and mouth, and the surrounding area.",
+  "HANDS": "The part of the forelimb below the forearm or wrist in a human, and the corresponding part in many other animals.",
+  "LUXURY": "Very wealthy and comfortable surroundings."
 }
