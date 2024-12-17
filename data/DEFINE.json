@@ -1,8 +1,7 @@
 {
-  "ANKLET": "A piece of jewelry/jewellery, resembling a bracelet but worn around the ankle.",
-  "ATHLEISURE": "Clothing that is appropriate for both athletic and leisure pursuits.",
-  "BRUNCH": "A meal eaten later in the day than breakfast and earlier than lunch, and often consisting of typical foods from both of those meals.",
-  "SMOG": "A noxious mixture of particulates and gases that is the result of urban air pollution.",
-  "SPORK": "An eating utensil shaped like a spoon, the bowl of which is divided into tines like those of a fork, and so has the function of both implements; some _____s have a serrated edge so they can also function as a knife.",
-  "ZORSE": "A 5-letter word related to channel surfing."
+  "CRIME": "A specific act committed in violation of the law.",
+  "FANTASY": "That which comes from one's imagination.",
+  "HISTORICAL": "A __________ romance.",
+  "ROMANCE": "A story relating to chivalry; a story involving knights, heroes, adventures, quests, etc.",
+  "WESTERN": "A film, or some other dramatic work, set in, the historic (c. 1850-1910) American West (west of the Mississippi river) focusing on conflict between whites and Indians, lawmen and outlaws, ranchers and farmers, or industry (railroads, mining) and agriculture."
 }
