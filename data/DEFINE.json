@@ -1,10 +1,9 @@
 {
-  "CANDY": "Edible, sweet-tasting confectionery containing sugar, or sometimes artificial sweeteners, and often flavored with fruit, chocolate, nuts, herbs and spices, or artificial flavors.",
-  "COAL": "A black rock formed from prehistoric plant remains, composed largely of carbon and burned as a fuel.",
-  "ORANGE": "An evergreen tree of the genus Citrus such as Citrus sinensis.",
-  "PENS": "An enclosure (enclosed area) used to contain domesticated animals, especially sheep or cattle.",
-  "PLUSHIE": "A soft toy with a soft, plush covering.",
-  "SCARF": "A long, often knitted, garment worn around the neck.",
-  "SOCKS": "A knitted or woven covering for the foot.",
-  "TOYS": "Something to play with, especially as intended for use by a child."
+  "AUNT": "The sister or sister-in-law of one\u2019s parent.",
+  "COUSIN": "The child of a person's uncle or aunt; a first ______.",
+  "GRANDCHILD": "A child of someone's child.",
+  "INLAW": "A 5-letter word related to channel surfing.",
+  "NEPHEW": "A son of one's sibling, brother-in-law, or sister-in-law; either a son of one's brother (fraternal ______) or a son of one's sister (sororal ______).",
+  "NIECE": "A daughter of one\u2019s sibling, brother-in-law, or sister-in-law; either the daughter of one's brother (\"fraternal _____\"), or of one's sister (\"sororal _____\").",
+  "UNCLE": "The brother or brother-in-law of one\u2019s parent."
 }
