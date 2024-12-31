@@ -1,7 +1,8 @@
 {
-  "CONCERTO": "A piece of music for one or more solo instruments and orchestra.",
-  "OVERTURE": "An opening; a recess or chamber.",
-  "PRELUDE": "An introductory or preliminary performance or event.",
-  "SONATA": "A musical composition for one or a few instruments, one of which is frequently a piano, in three or four movements that vary in key and tempo.",
-  "SYMPHONY": "An extended piece of music of sophisticated structure, usually for orchestra."
+  "CLOSURE": "An event or occurrence that signifies an ending.",
+  "CODA": "A person born hearing to deaf parents.",
+  "CONCLUSION": "The end, finish, close or last part of something.",
+  "ENDING": "A termination or conclusion.",
+  "EPILOGUE": "A short speech, spoken directly at the audience at the end of a play",
+  "FINALE": "The grand end of something, especially a show or piece of music."
 }
