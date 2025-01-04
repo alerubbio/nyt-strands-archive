@@ -1,9 +1,8 @@
 {
-  "BUMPER": "Someone or something that bumps.",
-  "DOOR": "A portal of entry into a building, room, or vehicle, consisting of a rigid plane movable on a hinge. Doors are frequently made of wood or metal. May have a handle to help open and close, a latch to hold the ____ closed and a lock that ensures the ____ cannot be opened without the key.",
-  "GRILLE": "A grating; a grid of wire or a sheet of material with a pattern of holes or slots, usually used to protect something while allowing the passage of air and liquids. Typical uses: to allow air through a fan while preventing fingers or objects from passing; to allow people to talk to somebody, while preventing attack.",
-  "HOOD": "A covering for the head attached to a larger garment such as a jacket or cloak.",
-  "MIRROR": "A smooth surface, usually made of glass with reflective material painted on the underside, that reflects light so as to give an image of what is in front of it.",
-  "TRUNK": "(heading, biological) Part of a body.",
-  "WINDSHIELD": "A transparent screen made of glass, located at the front and back of a vehicle in front of its occupants to protect them from the wind and weather."
+  "CRIME": "A specific act committed in violation of the law.",
+  "FURY": "Extreme anger.",
+  "PREJUDICE": "An adverse judgment or opinion formed beforehand or without knowledge of the facts.",
+  "PRIDE": "The quality or state of being proud; an unreasonable overestimation of one's own superiority in terms of talents, looks, wealth, importance etc., which manifests itself in lofty airs, distance, reserve and often contempt of others.",
+  "PUNISHMENT": "The act or process of punishing, imposing and/or applying a sanction.",
+  "SOUND": "Healthy."
 }
