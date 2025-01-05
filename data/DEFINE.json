@@ -1,8 +1,8 @@
 {
-  "CRIME": "A specific act committed in violation of the law.",
-  "FURY": "Extreme anger.",
-  "PREJUDICE": "An adverse judgment or opinion formed beforehand or without knowledge of the facts.",
-  "PRIDE": "The quality or state of being proud; an unreasonable overestimation of one's own superiority in terms of talents, looks, wealth, importance etc., which manifests itself in lofty airs, distance, reserve and often contempt of others.",
-  "PUNISHMENT": "The act or process of punishing, imposing and/or applying a sanction.",
-  "SOUND": "Healthy."
+  "BLIZZARD": "A large snowstorm accompanied by strong winds and greatly reduced visibility caused by blowing snow.",
+  "DRIZZLE": "Light rain.",
+  "FLURRY": "A light, brief snowfall.",
+  "FROST": "A cover of minute ice crystals on objects that are exposed to the air. Frost is formed by the same process as dew, except that the temperature of the _____ed object is below freezing.",
+  "SLEET": "Pellets of ice made of mostly frozen raindrops or refrozen melted snowflakes.",
+  "SNOW": "The frozen, crystalline state of water that falls as precipitation."
 }
