@@ -1,9 +1,7 @@
 {
-  "BIRD": "A member of the class of animals Aves in the phylum Chordata, characterized by being warm-blooded, having feathers and wings usually capable of flight, and laying eggs.",
-  "BUNNY": "A rabbit, especially a juvenile.",
-  "FINGER": "A slender jointed extremity of the human hand, exclusive of the thumb.",
-  "GAGA": "Mentally senile.",
-  "LIBERTY": "The condition of being free from control or restrictions.",
-  "MARMALADE": "Citrus fruit variant of jam but distinguished by being made slightly bitter by the addition of the peel and by partial caramelisation during manufacture. Most commonly made with Seville oranges, and usually qualified by the name of the fruit when made with other types of fruit.",
-  "SLIPPER": "A low soft shoe that can be slipped on and off easily."
+  "BACKSPLASH": "A vertical covering on a wall rising above a countertop or other work surface to protect the wall from spills and to decorate the wall.",
+  "COUNTERTOP": "The top surface of a counter, for preparation of food etc.",
+  "ISLAND": "A contiguous area of land, smaller than a continent, totally surrounded by water.",
+  "OVEN": "A chamber used for baking or heating.",
+  "SINK": "A basin used for holding water for washing."
 }
