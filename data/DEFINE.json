@@ -1,8 +1,8 @@
 {
-  "BLUEBERRY": "An edible round berry, belonging to the cowberry group (Vaccinium sect. Cyanococcus), with flared crowns at the end, that turns blue on ripening.",
-  "EVERYTHING": "All the things under discussion.",
-  "GARLIC": "A plant, Allium sativum, related to the onion, having a pungent bulb much used in cooking.",
-  "PLAIN": "Flat, level.",
-  "RAISIN": "A dried grape.",
-  "SESAME": "A tropical Asian plant (Sesamum indicum) bearing small flat seeds used as food and as a source of oil."
+  "BEANIE": "A cap that fits the head closely, usually knitted from wool.",
+  "GLOVES": "An item of clothing other than a mitten, covering all or part of the hand and fingers, but usually allowing independent movement of the fingers.",
+  "JACKET": "A piece of clothing worn on the upper body outside a shirt or blouse, often waist length to thigh length.",
+  "MITTENS": "A type of glove or garment that covers a hand with a separate sheath for the thumb, but not for other fingers, which are either enclosed in a single section or left uncovered.",
+  "PARKA": "A long jacket with a hood which protects the wearer against rain and wind.",
+  "SCARF": "A long, often knitted, garment worn around the neck."
 }
