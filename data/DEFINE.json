@@ -1,8 +1,10 @@
 {
-  "BEANIE": "A cap that fits the head closely, usually knitted from wool.",
-  "GLOVES": "An item of clothing other than a mitten, covering all or part of the hand and fingers, but usually allowing independent movement of the fingers.",
-  "JACKET": "A piece of clothing worn on the upper body outside a shirt or blouse, often waist length to thigh length.",
-  "MITTENS": "A type of glove or garment that covers a hand with a separate sheath for the thumb, but not for other fingers, which are either enclosed in a single section or left uncovered.",
-  "PARKA": "A long jacket with a hood which protects the wearer against rain and wind.",
-  "SCARF": "A long, often knitted, garment worn around the neck."
+  "BALEEN": "The bony material that makes up the plates in the mouth of the ______ whale, Mysticeti, which it uses to trap its food; formerly used in corsetry",
+  "BELUGA": "A cetacean, Delphinapterus leucas, found in the Arctic Ocean.",
+  "BLUE": "The colour of the clear sky or the deep sea, between green and violet in the visible spectrum, and one of the primary additive colours for transmitted light; the colour obtained by subtracting red and green from white light using magenta and cyan filters; or any colour resembling this.",
+  "GRAY": "An achromatic colour intermediate between black and white.",
+  "HUMPBACK": "A humped back (deformity in humans caused by abnormal curvature of the upper spine).",
+  "ORCA": "A sea mammal (Orcinus ____) related to dolphins and porpoises, commonly called the killer whale.",
+  "RIGHT": "Straight, not bent.",
+  "SPERM": "The reproductive cell or gamete of the male; a _____atozoon."
 }
